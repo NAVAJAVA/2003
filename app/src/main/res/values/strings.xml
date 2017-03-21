@@ -2,21 +2,18 @@
     <string name="app_name">Enveloper</string>
 
         <!--activity_login-->
+        <string name="LogIn">Log In</string>
         <string name="Username">Username</string>
         <string name="Password">Password</string>
 
         <!--activity_signup-->
+        <string name="SignUp">Sign Up</string>
         <string name="Submit">Submit</string>
         <string name="Reset">Reset</string>
         <string name="Email">Email</string>
         <string name="Name">Name</string>
 
-        <!--splash-->
-        <string name="welcome">Welcome to our app</string>
-        <string name="connect">We will connect you to server </string>
-        <string name="fun">We hope you have fun</string>
-        <string name="tell">Tell your Friends</string>
-        <string name="come_back">Come Back Soon!</string>
+
 
         <!--fragment_layout_one-->
         <string name="fragOneTitle">Welcome</string>

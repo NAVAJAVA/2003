@@ -7,7 +7,7 @@
               android:gravity="center"
               android:orientation="vertical"
               android:windowSoftInputMode="adjustResize"
-              tools:context=".SignupActivity">
+    tools:context=".SignupActivity">
 
     <EditText
         android:id="@+id/txtUsername"
