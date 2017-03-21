@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:background="#c9cad3"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:windowSoftInputMode="adjustResize"
+              tools:context=".SignupActivity">
+
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:gravity="left"
+        android:hint="@string/Username"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="left"
+        android:hint="@string/Password"
+        android:inputType="textPassword"/>
+
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Name"
+        android:inputType="textPersonName"/>
+
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Email"
+        android:inputType="textEmailAddress"/>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rdioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/btnsSignlinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:layout_marginStart="27dp"
+            android:layout_weight="1"
+            android:text="Reset"/>
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="34dp"
+            android:layout_marginRight="34dp"
+            android:layout_marginTop="28dp"
+            android:layout_weight="1"
+            android:text="@string/Send"/>
+
+    </LinearLayout>
+</LinearLayout>
