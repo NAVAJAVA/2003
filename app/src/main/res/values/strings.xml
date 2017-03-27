@@ -1,50 +1,55 @@
 <resources>
     <string name="app_name">Enveloper</string>
 
-        <!--activity_login-->
-        <string name="LogIn">Log In</string>
-        <string name="Username">Username</string>
-        <string name="Password">Password</string>
+    <!--activity_login-->
+    <string name="LogIn">Log In</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
 
-        <!--activity_signup-->
-        <string name="SignUp">Sign Up</string>
-        <string name="Submit">Submit</string>
-        <string name="Reset">Reset</string>
-        <string name="Email">Email</string>
-        <string name="Name">Name</string>
+    <!--activity_signup-->
+    <string name="SignUp">Sign Up</string>
+    <string name="Submit">Submit</string>
+    <string name="Reset">Reset</string>
+    <string name="Email">Email</string>
+    <string name="Name">Name</string>
 
 
+    <!--fragment_layout_one-->
+    <string name="fragOneTitle">Welcome</string>
+    <string name="fragmentOneContent">You are seeing these pages as this is the first time you have logged into this up. In future you will be logged in automatically.</string>
+    <string name="fragTwoContent">All your information will be stored on a MySQL database</string>
+    <string name="fragTwoTitle">MySQL</string>
 
-        <!--fragment_layout_one-->
-        <string name="fragOneTitle">Welcome</string>
-        <string name="fragmentOneContent">You are seeing these pages as this is the first time you have logged into this up. In future you will be logged in automatically.</string>
-        <string name="fragTwoContent">All your information will be stored on a MySQL database</string>
-        <string name="fragTwoTitle">MySQL</string>
+    <!--fragment_layout_three-->
+    <string name="fragThreeTitle">Messages</string>
+    <string name="fragThreeContent">You will be able to send messages that will be stored on the Server and view them whenever you want</string>
 
-        <!--fragment_layout_three-->
-        <string name="fragThreeTitle">Messages</string>
-        <string name="fragThreeContent">You will be able to send messages that will be stored on the Server and view them whenever you want</string>
+    <!--fragment_layout_four-->
+    <string name="fragFourTitle">Language Support</string>
+    <string name="fragFourContent">This application will also support input of Hebrew and English</string>
 
-        <!--fragment_layout_four-->
-        <string name="fragFourTitle">Language Support</string>
-        <string name="fragFourContent">This application will also support input of Hebrew and English</string>
+    <!--fragment_layout_five-->
+    <string name="fragFiveTitle">Web Server</string>
+    <string name="fragFiveContent">All of the running of this app will be done while connected to our Web Server</string>
 
-        <!--fragment_layout_five-->
-        <string name="fragFiveTitle">Web Server</string>
-        <string name="fragFiveContent">All of the running of this app will be done while connected to our Web Server</string>
+    <!--activity_message-->
+    <string name="Message">Write your message here</string>
+    <string name="Send">Send</string>
 
-        <!--activity_message-->
-        <string name="Message">Write your message here</string>
-        <string name="Send">Send</string>
+    <string name="Skip">Skip</string>
+    <string name="Continue">Continue</string>
+    <string name="detailsError">Incorrect Login details - Please try again.</string>
+    <string name="errorMissingInfo">Please enter in all your information</string>
+    <string name="errorConnection">Sorry there seems to be a problem with Sign up</string>
+    <string name="errorWithServer">Sorry there is an issue with the server - Please try again</string>
+    <string name="sendSuccess">Message Sent Successfully</string>
+    <string name="loginError">There was a problem logging you in</string>
+    <string name="title_activity_operation">OperationActivity</string>
 
-        <string name="Skip">Skip</string>
-        <string name="Continue">Continue</string>
-        <string name="detailsError">Incorrect Login details - Please try again.</string>
-        <string name="errorMissingInfo">Please enter in all your information</string>
-        <string name="errorConnection">Sorry there seems to be a problem with Sign up</string>
-        <string name="errorWithServer">Sorry there is an issue with the server - Please try again</string>
-        <string name="sendSuccess">Message Sent Successfully</string>
-        <string name="loginError">There was a problem logging you in</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>
