@@ -1,5 +1,6 @@
 package com.example.nava.a2003;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class SignupActivity  extends AppCompatActivity {
                 }
                 //all details are ok - send to server?
                 else {
+                    startActivity(new Intent(SignupActivity.this, OperationActivity.class));
 
                 }
             }
