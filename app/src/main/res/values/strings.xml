@@ -21,8 +21,8 @@
     <string name="fragTwoTitle">MySQL</string>
 
     <!--fragment_layout_three-->
-    <string name="fragThreeTitle">Messages</string>
-    <string name="fragThreeContent">You will be able to send messages that will be stored on the Server and view them whenever you want</string>
+    <string name="fragThreeTitle">Gallery</string>
+    <string name="fragThreeContent">watch and upload pictures after the event occurs </string>
 
     <!--fragment_layout_four-->
     <string name="fragFourTitle">Language Support</string>
@@ -52,10 +52,15 @@
     <string name="action_settings">Settings</string>
 
     <!-- fragment_fragment_one -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Press on an event and choose an action from navigation bar</string>
 
     <!-- fragment_fragment_two -->
     <string name="text_fragment">welcome</string>
+    <!-- fragment_fragment_three -->
+
+    <!-- fragment_fragment_four -->
+    <string name="attend">Will Attend</string>
+    <string name="notattend">No</string>
 
 
 

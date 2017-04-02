@@ -19,7 +19,8 @@ import android.view.MenuItem;
 
 public class OperationActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentOne.OnFragmentInteractionListener,
-        FragmentTwo.OnFragmentInteractionListener{
+        FragmentTwo.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
+        FragmentFour.OnFragmentInteractionListener, FragmentFive.OnFragmentInteractionListener, FragmentSix.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,18 +107,20 @@ public class OperationActivity extends  AppCompatActivity
             fragmentClass = FragmentTwo.class;
 
         } else if (id == R.id.nav_gallery) {
+            fragmentClass = FragmentThree.class;
 
         } else if (id == R.id.nav_rsvp) {
-
-
-        } else if (id == R.id.nav_manage) {
-
-
-        } else if (id == R.id.nav_mySeat) {
-
-        } else if (id == R.id.nav_payment) {
-
+            fragmentClass = FragmentFour.class;
         }
+        else if (id == R.id.nav_mySeat) {
+            fragmentClass = FragmentFive.class;
+        } else if (id == R.id.nav_payment) {
+            fragmentClass = FragmentSix.class;
+        }
+        /* tools - the user can control notifications before events etc..
+        else if (id == R.id.nav_manage) {
+
+        }*/
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
