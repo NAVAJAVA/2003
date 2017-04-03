@@ -1,20 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_alignParentBottom="true"
-              android:gravity="center"
-              android:orientation="vertical"
-              tools:context=".LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorfragmentone"
+
+    android:gravity="center"
+    android:orientation="vertical"
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".LoginActivity">
 
     <EditText
         android:id="@+id/txtUsernameLogin"
-        android:layout_width="250dp"
+        android:layout_width="241dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="114dp"
-        android:inputType="textEmailAddress"
-        android:hint="Username"/>
+        android:layout_marginTop="1dp"
+        android:gravity="left"
+        android:hint="@string/Username"
+        android:inputType="textEmailAddress"/>
+
+
+
 
     <EditText
         android:id="@+id/txtPasswordLogin"
@@ -27,8 +32,11 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="308dp"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorfragmentone"
+
         android:text="Log In" />
 
 </LinearLayout>

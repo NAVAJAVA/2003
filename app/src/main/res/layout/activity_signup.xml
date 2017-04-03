@@ -3,8 +3,9 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"
-              android:background="#c9cad3"
-              android:gravity="center"
+            android:background="@color/colorfragmentone"
+
+    android:gravity="center"
               android:orientation="vertical"
               android:windowSoftInputMode="adjustResize"
     tools:context=".SignupActivity">
@@ -67,7 +68,9 @@
             android:layout_marginLeft="27dp"
             android:layout_marginStart="27dp"
             android:layout_weight="1"
-            android:text="Reset"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorfragmentone"
+            android:text="Reset" />
 
         <Button
             android:id="@+id/btnSend"
@@ -78,7 +81,9 @@
             android:layout_marginRight="34dp"
             android:layout_marginTop="28dp"
             android:layout_weight="1"
-            android:text="@string/Send"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorfragmentone"
+            android:text="@string/Send" />
 
     </LinearLayout>
 </LinearLayout>

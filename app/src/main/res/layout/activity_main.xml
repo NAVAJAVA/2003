@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorfragmentone"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,33 +19,41 @@
         android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Sign Up"
         android:layout_above="@+id/buttonLogin"
+        android:layout_alignEnd="@+id/buttonLogin"
         android:layout_alignLeft="@+id/buttonLogin"
-        android:layout_alignStart="@+id/buttonLogin"
         android:layout_alignRight="@+id/buttonLogin"
-        android:layout_alignEnd="@+id/buttonLogin" />
+        android:layout_alignStart="@+id/buttonLogin"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorfragmentone"
+
+
+
+        android:text="Sign Up" />
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_weight="1"
-        android:text="Login"
-        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_marginBottom="80dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        android:layout_alignStart="@+id/imageView"
+        android:layout_gravity="right"
+        android:layout_marginBottom="80dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorfragmentone"
+        android:textColor="@color/colorPrimaryDark"
+
+        android:text="Login" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/images"
+        app:srcCompat="@drawable/bl"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
