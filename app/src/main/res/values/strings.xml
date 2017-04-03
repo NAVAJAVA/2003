@@ -62,6 +62,8 @@
     <string name="attend">Will Attend</string>
     <string name="notattend">No</string>
 
+    <!-- fragment_fragment_five -->
+    <string name="message">we are working on it...</string>
 
 
 </resources>

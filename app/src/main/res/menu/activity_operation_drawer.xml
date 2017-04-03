@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_rsvp"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_perm_contact_calendar_black_24dp"
             android:title="RSVP" />
 
         <item
