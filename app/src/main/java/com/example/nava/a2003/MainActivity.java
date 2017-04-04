@@ -8,11 +8,19 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+//import com.microsoft.windowsazure.mobileservices.*;
+
 
 public class MainActivity extends AppCompatActivity {
+   // private MobileServiceClient mClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       /* mClient = new MobileServiceClient(
+                "https://enveloper.azurewebsites.net",
+                this
+        );*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //setting name of app in center

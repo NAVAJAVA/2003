@@ -64,6 +64,13 @@
 
     <!-- fragment_fragment_five -->
     <string name="message">we are working on it...</string>
+    <string name="tableNum">"Table number :</string>
+    <string name="howMany">How many?</string>
+
+    <!-- fragment_fragment_six -->
+    <string name="messagePayment">Transfer a gift with "bit" app</string>
+    <string name="bankAccountDetails">Account number : 186112 branch : 062 \n bank : 031 - "Bank Leumi"</string>
+
 
 
 </resources>

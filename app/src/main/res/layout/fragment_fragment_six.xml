@@ -1,15 +1,52 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorfragmentone"
-
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentSix">
+    android:background="@color/colorfragmentone"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".FragmentSix"
+    android:weightSum="1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <LinearLayout
+
+        android:id="@+id/btnsSignlinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textViewTableNumber"
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/messagePayment"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22dp"
+            android:gravity="left" />
+
+        <Button
+            android:id="@+id/btnBit"
+            android:layout_width="wrap_content"
+            android:layout_height="69dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginStart="27dp"
+            android:layout_gravity="left"
+            android:background="@drawable/bit" />
+
+        <Button
+            android:id="@+id/btnTableNumber"
+            android:layout_width="210dp"
+            android:layout_height="69dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginStart="27dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/bankAccountDetails"
+            android:textColor="@color/colorfragmentone" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

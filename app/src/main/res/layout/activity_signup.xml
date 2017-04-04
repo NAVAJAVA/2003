@@ -46,15 +46,6 @@
         android:hint="@string/Email"
         android:inputType="textEmailAddress"/>
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rdioGroup"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-    </RadioGroup>
-
     <LinearLayout
         android:id="@+id/btnsSignlinearLayout"
         android:layout_width="wrap_content"

@@ -1,12 +1,17 @@
 package com.example.nava.a2003;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 /**
@@ -22,6 +27,7 @@ public class FragmentSix extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    WebView wv;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,10 +67,24 @@ public class FragmentSix extends Fragment {
     }
 
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_six, container, false);
+
+        super.onCreate(savedInstanceState);
+        setUserVisibleHint(true);
+        View rootView = inflater.inflate(R.layout.fragment_fragment_six, container, false);
+        Button button = (Button) rootView.findViewById(R.id.btnBit);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                // Perform action on click
+                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+                myWebLink.setData(Uri.parse("http://www.bitpay.co.il"));
+                startActivity(myWebLink);
+                Toast.makeText(getActivity(), "Please enter correct information", Toast.LENGTH_LONG).show();
+            }
+        });
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
