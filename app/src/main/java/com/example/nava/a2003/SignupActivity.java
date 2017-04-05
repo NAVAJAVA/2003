@@ -31,7 +31,6 @@ public class SignupActivity  extends AppCompatActivity {
     private EditText name;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    //private ProgressBar progressBar;
 
 
     @Override
@@ -56,7 +55,6 @@ public class SignupActivity  extends AppCompatActivity {
         password = (EditText) findViewById(R.id.txtPassword);
         name = (EditText) findViewById(R.id.txtName);
         email = (EditText) findViewById(R.id.txtEmail);
-       // progressBar = (ProgressBar) findViewById(R.id.progressBar);
         String strEmail = email.getText().toString().trim();
         String strPassword = password.getText().toString().trim();
 

@@ -29,20 +29,21 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtUsernameLogin;
     private EditText txtPasswordLogin;
     private Button btnLogin;
+    private Button btnResetPassword;
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
-        /*
+        //// User is logged in, go to operation activity
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, OperationActivity.class));
             finish();
-        }*/
+        }
         setContentView(R.layout.activity_login);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnResetPassword = (Button) findViewById(R.id.btnForgotPassword);
         txtUsernameLogin = (EditText) findViewById(R.id.txtUsernameLogin);
         txtPasswordLogin = (EditText) findViewById(R.id.txtPasswordLogin);
 
@@ -59,6 +60,14 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        assert btnResetPassword != null;
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
 
 
         assert btnLogin != null;

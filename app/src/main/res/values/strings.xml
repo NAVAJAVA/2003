@@ -75,6 +75,12 @@
     <string name="messagePayment">Transfer a gift with "bit" app</string>
     <string name="bankAccountDetails">Account number : 186112 branch : 062 \n bank : 031 - "Bank Leumi"</string>
 
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="btn_forgot_password">Forgot your password ?</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
 
 
 </resources>
