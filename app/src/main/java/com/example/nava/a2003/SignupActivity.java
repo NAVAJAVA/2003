@@ -71,7 +71,7 @@ public class SignupActivity  extends AppCompatActivity {
                         name.getText().toString().equals("") ||
                         email.getText().toString().equals("") || strPassword.length()<6) {
                     if(strPassword.length() < 6){
-                        Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.minimum_password, Toast.LENGTH_SHORT).show();
 
                     }
                     else{
