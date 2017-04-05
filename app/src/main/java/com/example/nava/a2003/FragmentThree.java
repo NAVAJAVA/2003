@@ -8,6 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +35,7 @@ public class FragmentThree extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,6 +73,18 @@ public class FragmentThree extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String path = "fire/" + UUID.randomUUID() +".png";
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
+        StorageReference ref = storage.getReference(path);
+        //StorageMetadata metadata = new StorageMetadata.Builder()
+        UploadTask uploadTask = ref.putFile(Uri.EMPTY);
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fragment_three, container, false);
     }

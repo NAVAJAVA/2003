@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "381946231038",
+    "firebase_url": "https://project-7aca3.firebaseio.com",
+    "project_id": "project-7aca3",
+    "storage_bucket": "project-7aca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381946231038:android:78ded813d5061ceb",
+        "android_client_info": {
+          "package_name": "com.example.nava.a2003"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381946231038-af2c2oapnfcud1k4fjlecc3lmq6ojnv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDCVIDIfbh9gXhJ2hdx95e-neBdhotRNM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

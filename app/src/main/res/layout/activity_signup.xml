@@ -11,13 +11,13 @@
     tools:context=".SignupActivity">
 
     <EditText
-        android:id="@+id/txtUsername"
+        android:id="@+id/txtEmail"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:gravity="left"
-        android:hint="@string/Username"
-        android:inputType="textEmailAddress"/>
+        android:hint="@string/Email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/txtPassword"
@@ -37,14 +37,6 @@
         android:hint="@string/Name"
         android:inputType="textPersonName"/>
 
-
-    <EditText
-        android:id="@+id/txtEmail"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Email"
-        android:inputType="textEmailAddress"/>
 
     <LinearLayout
         android:id="@+id/btnsSignlinearLayout"
@@ -77,4 +69,5 @@
             android:text="@string/Send" />
 
     </LinearLayout>
+
 </LinearLayout>

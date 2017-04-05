@@ -6,9 +6,15 @@
     tools:context=".FragmentThree">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/fragThreeTitle" />
 
+    <Button
+        android:id="@+id/btnUploadPhoto"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/upload"
+        android:textColor="@color/colorfragmentone" />
 </FrameLayout>

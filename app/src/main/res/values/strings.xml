@@ -57,6 +57,8 @@
     <!-- fragment_fragment_two -->
     <string name="text_fragment">welcome</string>
     <!-- fragment_fragment_three -->
+    <string name="upload">upload pictures</string>
+
 
     <!-- fragment_fragment_four -->
     <string name="attend">Will Attend</string>
