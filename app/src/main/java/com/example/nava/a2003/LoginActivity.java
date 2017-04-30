@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         //// User is logged in, go to operation activity
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, OperationActivity.class));
+            startActivity(new Intent(LoginActivity.this, ChoiceActivity.class));
             finish();
         }
         setContentView(R.layout.activity_login);

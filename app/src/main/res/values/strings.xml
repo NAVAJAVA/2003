@@ -15,6 +15,13 @@
     <string name="Email">Email</string>
     <string name="Name">Name</string>
 
+    <!--activity_Choice-->
+    <string name="invited">Invited</string>
+    <string name="invite">Invite</string>
+    <string name="lable">What do you wish to do?</string>
+
+
+
 
     <!--fragment_layout_one-->
     <string name="fragOneTitle">Welcome</string>
