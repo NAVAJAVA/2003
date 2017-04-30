@@ -5,7 +5,6 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/bl"
@@ -59,6 +58,16 @@
             android:name=".OperationActivity"
             android:label="@string/title_activity_operation"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InvitedActivity"
+            android:label="@string/title_activity_invited"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

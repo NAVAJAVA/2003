@@ -21,8 +21,6 @@
     <string name="lable">What do you wish to do?</string>
 
 
-
-
     <!--fragment_layout_one-->
     <string name="fragOneTitle">Welcome</string>
     <string name="fragmentOneContent">You are seeing these pages as this is the first time you have logged into this up. In future you will be logged in automatically.</string>
@@ -88,6 +86,7 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="title_activity_invited">InvitedActivity</string>
 
 
 </resources>

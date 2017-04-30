@@ -32,11 +32,20 @@ public class ChoiceActivity  extends AppCompatActivity {
 
 
         btnInvited = (Button) findViewById(R.id.btnInvited);
-        assert btnInvite != null;
+        assert btnInvited != null;
         btnInvited.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
                 startActivity(new Intent(ChoiceActivity.this, OperationActivity.class));
+            }
+        });
+
+        btnInvite = (Button) findViewById(R.id.btnInvite);
+        assert btnInvite != null;
+        btnInvite.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(ChoiceActivity.this, InvitedActivity.class));
             }
         });
 
