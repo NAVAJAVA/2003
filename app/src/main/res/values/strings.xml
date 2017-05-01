@@ -51,9 +51,9 @@
     <string name="errorWithServer">Sorry there is an issue with the server - Please try again</string>
     <string name="sendSuccess">Message Sent Successfully</string>
     <string name="loginError">There was a problem logging you in</string>
+
     <!--activity_operation-->
     <string name="title_activity_operation"></string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>

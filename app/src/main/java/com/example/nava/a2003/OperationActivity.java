@@ -28,6 +28,7 @@ public class OperationActivity extends  AppCompatActivity
         setContentView(R.layout.activity_operation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
