@@ -45,7 +45,7 @@ public class ChoiceActivity  extends AppCompatActivity {
         btnInvite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(ChoiceActivity.this, InvitedActivity.class));
+                startActivity(new Intent(ChoiceActivity.this, InviteActivity.class));
             }
         });
 

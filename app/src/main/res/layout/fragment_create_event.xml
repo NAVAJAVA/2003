@@ -1,0 +1,94 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorfragmentone"
+
+    tools:context="com.example.nava.a2003.CreateEventFragment">
+
+    <FrameLayout
+        android:id="@+id/flContentCreateEvent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorfragmentone"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustResize"
+            tools:context=".SignupActivity">
+
+            <EditText
+                android:id="@+id/txtEventName"
+                android:layout_width="244dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="left"
+                android:hint="@string/eventName"
+                android:inputType="textEmailAddress" />
+
+
+            <EditText
+                android:id="@+id/txtTime"
+                android:layout_width="247dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/time"
+                android:inputType="time" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="235dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/date"
+                android:inputType="date" />
+
+
+            <EditText
+                android:id="@+id/txtBankDetails"
+                android:layout_width="236dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/bankDetails"
+                android:inputType="textPersonName" />
+
+
+            <LinearLayout
+                android:id="@+id/btnsSignlinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/btnInvitation"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="27dp"
+                    android:layout_marginStart="27dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="@string/invitation"
+                    android:textColor="@color/colorfragmentone" />
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="63dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="34dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginTop="28dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="@string/create"
+                    android:textColor="@color/colorfragmentone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

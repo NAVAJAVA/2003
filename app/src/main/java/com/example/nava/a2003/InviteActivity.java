@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -17,9 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class InvitedActivity extends  AppCompatActivity
+public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
-        MainInvitedFragment.OnFragmentInteractionListener{
+        CalendarFragment.OnFragmentInteractionListener,
+        MainInviteFragment.OnFragmentInteractionListener, CreateEventFragment.OnFragmentInteractionListener{
+   private Fragment fragment = null;
+   private Class fragmentClass = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class InvitedActivity extends  AppCompatActivity
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = MainInvitedFragment.class;
+            fragmentClass = MainInviteFragment.class;
 
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -43,13 +45,21 @@ public class InvitedActivity extends  AppCompatActivity
         }
 
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabInvited);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+             //   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+              //          .setAction("Action", null).show();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flContentInvited ,new CreateEventFragment())
+                        .commit();
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabInvited);
+                fab.setVisibility(View.GONE);
+
+
+
             }
         });
 
@@ -62,6 +72,8 @@ public class InvitedActivity extends  AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_viewInvited);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -100,21 +112,17 @@ public class InvitedActivity extends  AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
-        Class fragmentClass = null;
-
         if (id == R.id.nav_guests) {
             fragmentClass = GuestsFragment.class;
-
+        }   else if (id == R.id.nav_calendar) {
+            fragmentClass = CalendarFragment.class;
+        }   else if (id == R.id.nav_gallery) {
+            fragmentClass = GalleryFragment.class;
+        }   else if (id == R.id.nav_seats) {
+            fragmentClass = SeatsFragment.class;
+        }   else if (id == R.id.nav_notifications) {
+            fragmentClass = NotificationFragment.class;
         }
-/*
-             if (id == R.id.nav_seats) {
-                // Handle the camera action
-            } else if (id == R.id.nav_calendar) {
-            } else if (id == R.id.nav_gallery) {
-            }  else if (id == R.id.nav_notifications) {
-
-            }*/
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();

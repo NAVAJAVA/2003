@@ -88,5 +88,19 @@
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="title_activity_invited">InvitedActivity</string>
 
+    <!-- fragment_create_event -->
+    <string name="eventName">Event Name</string>
+    <string name="create">Crate Event</string>
+    <string name="time">Event Time</string>
+    <string name="invitation">Add invitation</string>
+    <string name="date">Event Date</string>
+    <string name="browse">Browse</string>
+    <string name="bankDetails">Bank Account Details</string>
+
+    <!-- fragment_connect_to_event -->
+    <string name="eventCode">Enter the code event</string>
+    <string name="connect">Connect</string>
+
+
 
 </resources>

@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nava.a2003.InvitedActivity">
+    android:id="@+id/flContentInvited"
+    tools:context="com.example.nava.a2003.InviteActivity">
 
-    <FrameLayout
-        android:id="@+id/flContentInvited"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -1,27 +1,32 @@
 package com.example.nava.a2003;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MainInvitedFragment.OnFragmentInteractionListener} interface
+ * {@link GalleryFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MainInvitedFragment#newInstance} factory method to
+ * Use the {@link GalleryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainInvitedFragment extends Fragment {
+public class GalleryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+  //  private static int RESULT_LOAD_IMAGE = 1;
+    //private Button buttonLoadImage;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -29,7 +34,7 @@ public class MainInvitedFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MainInvitedFragment() {
+    public GalleryFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +44,11 @@ public class MainInvitedFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MainInvitedFragment.
+     * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainInvitedFragment newInstance(String param1, String param2) {
-        MainInvitedFragment fragment = new MainInvitedFragment();
+    public static GalleryFragment newInstance(String param1, String param2) {
+        GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,13 +63,27 @@ public class MainInvitedFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        /*
+        buttonLoadImage = (Button) buttonLoadImage.findViewById(R.id.background_image_view);
+        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_invited, container, false);
+        return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
