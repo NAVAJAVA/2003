@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Nava on 20/03/2017.
@@ -40,6 +42,9 @@ public class SignupActivity  extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+
+
         //setting name of app in center
         ActionBar ab = getSupportActionBar();
         TextView textview = new TextView(getApplicationContext());
@@ -55,8 +60,7 @@ public class SignupActivity  extends AppCompatActivity {
         password = (EditText) findViewById(R.id.txtPassword);
         name = (EditText) findViewById(R.id.txtName);
         email = (EditText) findViewById(R.id.txtEmail);
-        String strEmail = email.getText().toString().trim();
-        String strPassword = password.getText().toString().trim();
+
 
         assert btnSend != null;
         btnSend.setOnClickListener(new View.OnClickListener() {
