@@ -2,19 +2,31 @@ package com.example.nava.a2003;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -37,7 +49,11 @@ public class CreateEventFragment extends Fragment {
     private Button btnCreate;
     private Button btnInvitation;
     private DatabaseReference mDatabase;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static int RESULT_LOAD_IMAGE = 1;
+    private  String picturePath;
+    private View mContentView = null;
+
 
 
 
@@ -77,22 +93,20 @@ public class CreateEventFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        mContentView = inflater.inflate(R.layout.fragment_create_event , null);
     }
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-
+       // ImageView imageView = (ImageView) view.findViewById(R.id.imgViewIn);
+        //imageView.setImageResource(R.drawable.black);
+        mContentView = view;
         btnInvitation = (Button) view.findViewById(R.id.btnInvitation);
         btnInvitation.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
@@ -106,7 +120,7 @@ public class CreateEventFragment extends Fragment {
 
 
 
-        //when btncreate is pressend add to database and go back to
+        //when btncreate is pressend add to database and go back to main?
 
         assert btnCreate != null;
         btnCreate.setOnClickListener(new View.OnClickListener() {
@@ -123,11 +137,14 @@ public class CreateEventFragment extends Fragment {
                 else
                 {
                     // Add event to database
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference nameRef = database.getReference("Event Name");
                     DatabaseReference timeRef = database.getReference("Event Time");
                     DatabaseReference dateRef = database.getReference("Event Date");
                     DatabaseReference bankRef = database.getReference("Bank account details");
+
+
+
+
                     //to do - to ascribe the user table?
                     nameRef.setValue(txtEventName.getText().toString().trim());
                     timeRef.setValue(txtTime.getText().toString().trim());
@@ -145,6 +162,43 @@ public class CreateEventFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_event, container, false);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+
+            DatabaseReference pathInvitation = database.getReference("path Invitation");
+            pathInvitation.setValue(picturePath);
+           // ImageView imageView = (ImageView) mContentView.findViewById(R.id.imgViewIn);
+            //imageView.setImageResource(R.drawable.black);
+
+
+            ImageView imageView = (ImageView) mContentView.findViewById(R.id.imgViewIn);
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+            File imgFile = new  File(picturePath);
+            if(imgFile.exists())
+            {
+                imageView.setImageURI(Uri.fromFile(imgFile));
+                Picasso.with(getContext()).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(imageView);
+
+            }
+        }
 
     }
 
