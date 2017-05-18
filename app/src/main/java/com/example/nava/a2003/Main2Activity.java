@@ -56,21 +56,15 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        lv = (ListView) findViewById(R.id.lv);
+
+       // lv = (ListView) findViewById(R.id.lv);
 
         //INITIALIZE FIREBASE DB
-        db = FirebaseDatabase.getInstance().getReference();
-        helper = new FirebaseHelper(db);
+        //db = FirebaseDatabase.getInstance().getReference();
+        //helper = new FirebaseHelper(db);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarActivity_main2);
         setSupportActionBar(toolbar);
-
-        ArrayList<Event> eventArrayList = new ArrayList<Event>();
-        eventArrayList = helper.retrieve();
-        //ADAPTER
-        adapter = new CustomAdapter(this, eventArrayList);
-
-        lv.setAdapter(adapter);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -145,6 +139,12 @@ public class Main2Activity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label_main2);
+            ListView listView = (ListView) rootView.findViewById(R.id.lv_fragment_main2);
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+            FirebaseHelper helper = new FirebaseHelper(db);
+            CustomAdapter adapter = new CustomAdapter(container.getContext(),helper.retrieve());
+
+            listView.setAdapter(adapter);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
