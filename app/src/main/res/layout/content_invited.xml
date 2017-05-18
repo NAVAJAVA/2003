@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nava.a2003.InviteActivity"
-    tools:showIn="@layout/app_bar_invited">
+    tools:showIn="@layout/app_bar_invite">
 
 </android.support.constraint.ConstraintLayout>

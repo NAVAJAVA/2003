@@ -48,7 +48,6 @@ public class CreateEventFragment extends Fragment {
     private EditText txtBankDetails;
     private Button btnCreate;
     private Button btnInvitation;
-    private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static int RESULT_LOAD_IMAGE = 1;
     private  String picturePath;

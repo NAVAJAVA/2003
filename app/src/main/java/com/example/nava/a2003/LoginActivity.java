@@ -34,13 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-        //// User is logged in, go to operation activity
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, ChoiceActivity.class));
-            finish();
-        }
+
         setContentView(R.layout.activity_login);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnResetPassword = (Button) findViewById(R.id.btnForgotPassword);
@@ -61,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        assert btnResetPassword != null;
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
@@ -70,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        assert btnLogin != null;
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -101,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        Intent intent = new Intent(LoginActivity.this, OperationActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
                                         startActivity(intent);
                                         finish();
                                     }

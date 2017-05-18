@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 public class OperationActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentOne.OnFragmentInteractionListener,
-        FragmentTwo.OnFragmentInteractionListener,ConnectToEventFragment.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
+        FragmentTwo.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
         FragmentFour.OnFragmentInteractionListener, FragmentFive.OnFragmentInteractionListener, FragmentSix.OnFragmentInteractionListener{
     private Fragment fragment = null;
     private Class fragmentClass = null;
@@ -27,7 +27,7 @@ public class OperationActivity extends  AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarOperationActivity);
         setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
@@ -45,21 +45,6 @@ public class OperationActivity extends  AppCompatActivity
         }
 
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContent ,new ConnectToEventFragment())
-                        .commit();
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                fab.setVisibility(View.GONE);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

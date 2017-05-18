@@ -101,6 +101,11 @@
     <string name="eventCode">Enter the code event</string>
     <string name="connect">Connect</string>
 
+    <!-- fragment_guests -->
+    <string name="addGuest">Add Guest</string>
+    <string name="title_activity_choice_new">ChoiceActivityNew</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 
 </resources>

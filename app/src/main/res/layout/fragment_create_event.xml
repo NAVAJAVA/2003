@@ -19,7 +19,15 @@
             android:gravity="center"
             android:orientation="vertical"
             android:windowSoftInputMode="adjustResize"
-            tools:context=".SignupActivity">
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/imgViewIn"
+                android:layout_width="249dp"
+                android:layout_height="121dp"
+                android:layout_weight="0.59"
+                android:adjustViewBounds="true"
+                android:scaleType="center"></ImageView>
 
             <EditText
                 android:id="@+id/txtEventName"
@@ -40,7 +48,7 @@
                 android:inputType="time" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/txtDate"
                 android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:ems="10"

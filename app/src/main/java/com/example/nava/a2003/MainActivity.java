@@ -8,19 +8,24 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-//import com.microsoft.windowsazure.mobileservices.*;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
-   // private MobileServiceClient mClient;
+    private FirebaseAuth auth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       /* mClient = new MobileServiceClient(
-                "https://enveloper.azurewebsites.net",
-                this
-        );*/
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        //// User is logged in, go to operation activity
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(MainActivity.this, Main2Activity.class));
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //setting name of app in center

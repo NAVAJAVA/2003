@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_invited"
+        layout="@layout/app_bar_invite"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,7 +20,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/colorfragmentone"
-        app:headerLayout="@layout/nav_header_invited"
+        app:headerLayout="@layout/nav_header_invite"
         app:menu="@menu/activity_invited_drawer"
         app:itemTextColor="@color/colorPrimaryDark"/>
 

@@ -26,7 +26,7 @@ public class InviteActivity extends  AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invited);
+        setContentView(R.layout.activity_invite);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarInvited);
         setSupportActionBar(toolbar);
 
@@ -41,7 +41,7 @@ public class InviteActivity extends  AppCompatActivity
                 e.printStackTrace();
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContentInvited, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
         }
 
 
@@ -53,7 +53,7 @@ public class InviteActivity extends  AppCompatActivity
               //          .setAction("Action", null).show();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.flContentInvited ,new CreateEventFragment())
+                        .replace(R.id.flContentInvite ,new CreateEventFragment())
                         .commit();
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabInvited);
                 fab.setVisibility(View.GONE);
@@ -130,7 +130,7 @@ public class InviteActivity extends  AppCompatActivity
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContentInvited, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layoutInvited);
         drawer.closeDrawer(GravityCompat.START);
