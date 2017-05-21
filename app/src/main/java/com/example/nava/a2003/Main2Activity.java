@@ -108,10 +108,11 @@ public class Main2Activity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        EditText editTextName;
 
-        Button buttonAddArtist;
         ListView listViewArtists;
+        EditText editTextName;
+        EditText dateTxt;
+        EditText timeTxt;
 
         //a list to store all the artist from firebase database
         List<Artist> artists;
@@ -142,37 +143,88 @@ public class Main2Activity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.activity_main3, container, false);
             //getting the reference of artists node
             databaseArtists = FirebaseDatabase.getInstance().getReference("artists");
-
             //getting views
-            editTextName = (EditText) rootView.findViewById(R.id.editTextName);
             listViewArtists = (ListView) rootView.findViewById(R.id.listViewArtists);
-
-            buttonAddArtist = (Button) rootView.findViewById(R.id.buttonAddArtist);
 
             //list to store artists
             artists = new ArrayList<>();
+            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
+                    fab.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 displayInputDialog();
+             }
+         });
 
-
-            //adding an onclicklistener to button
-            buttonAddArtist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //calling the method addArtist()
-                    //the method is defined below
-                    //this method is actually performing the write operation
-                    addArtist();
-                }
-            });
 
            // TextView textView = (TextView) rootView.findViewById(R.id.section_label_main2);
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             return rootView;
         }
-        /*
-    * This method is saving a new artist to the
-    * Firebase Realtime Database
-    * */
+
+        private void displayInputDialog() {
+            final Dialog d = new Dialog(getContext());
+            d.setContentView(R.layout.input_dialog);
+
+            editTextName = (EditText) d.findViewById(R.id.nameEditText);
+            dateTxt = (EditText) d.findViewById(R.id.dateEditText);
+            timeTxt = (EditText) d.findViewById(R.id.timeEditText);
+            final Button saveBtn = (Button) d.findViewById(R.id.saveBtn);
+
+            //SAVE
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //SIMPLE VALIDATION
+                    String name = editTextName.getText().toString().trim();
+                    if (name != null && name.length() > 0) {
+                        addArtist();
+                        editTextName.setText("");
+                        timeTxt.setText("");
+                        dateTxt.setText("");
+                        d.hide();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
+
+                    }
+                    //GET DATA
+                    //
+
+             //       String date = dateTxt.getText().toString();
+               //     String time= timeTxt.getText().toString();
+
+                    //SET DATA
+                    /*
+                    Event event = new Event();
+                    event.setName(name);
+                    event.setDate(date);
+                    event.setTime(time);
+
+                    //SIMPLE VALIDATION
+                    if (name != null && name.length() > 0) {
+                        //THEN SAVE
+                        if (helper.save(event)) {
+                            //IF SAVED CLEAR EDITXT
+                            nameEditTxt.setText("");
+                            timeTxt.setText("");
+                            dateTxt.setText("");
+                            d.hide();
+                            adapter = new CustomAdapter(getContext(), helper.retrieve());
+                            lv.setAdapter(adapter);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
+                    }
+*/
+                }
+            });
+
+            d.show();
+        }
         private void addArtist() {
             //getting the values to save
             String name = editTextName.getText().toString().trim();

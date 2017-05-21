@@ -3,12 +3,14 @@ package com.example.nava.a2003;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 
 
 /**
  * Created by Nava on 10/05/2017.
  */
-
+@IgnoreExtraProperties
 public class Event {
      String name;
      int eventId;
