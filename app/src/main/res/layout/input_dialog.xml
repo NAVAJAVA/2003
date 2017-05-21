@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorfragmentone"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -8,10 +9,9 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:background="@color/colorfragmentone"
-
         android:paddingTop="50dp">
 
         <android.support.design.widget.TextInputLayout
@@ -24,9 +24,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
+                android:textSize="14dp"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/descripLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/descTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="description"
+                android:textSize="14dp"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:id="@+id/propLayout"
             android:layout_width="match_parent"
@@ -37,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Date"
+                android:textSize="14dp"
                 android:singleLine="true" />
 
             <android.support.design.widget.TextInputLayout
@@ -49,6 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Time"
+                    android:textSize="14dp"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </android.support.design.widget.TextInputLayout>

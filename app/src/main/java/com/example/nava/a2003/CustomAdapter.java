@@ -1,6 +1,5 @@
 package com.example.nava.a2003;
 
-
         import android.content.Context;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -8,7 +7,8 @@ package com.example.nava.a2003;
         import android.widget.BaseAdapter;
         import android.widget.TextView;
         import android.widget.Toast;
-        import java.util.ArrayList;
+        import java.util.List;
+
 
 /**
  * Created by Oclemy on 6/21/2016 for ProgrammingWizards Channel and http://www.camposha.com.
@@ -17,9 +17,9 @@ package com.example.nava.a2003;
  */
 public class CustomAdapter extends BaseAdapter{
     Context c;
-    ArrayList<Event> eventsList;
+    List<Event> eventsList;
 
-    public CustomAdapter(Context c, ArrayList<Event> eventsList) {
+    public CustomAdapter(Context c, List<Event> eventsList) {
         this.c = c;
         this.eventsList = eventsList;
     }
@@ -41,22 +41,23 @@ public class CustomAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.print("i am here");
         if(convertView==null)
         {
             convertView= LayoutInflater.from(c).inflate(R.layout.model,parent,false);
         }
 
-        TextView nameTxt= (TextView) convertView.findViewById(R.id.nameTxt);
-        //chage desc to desc and create date txt for date
-        TextView dateTxt= (TextView) convertView.findViewById(R.id.descTxt);
-        TextView timeTxt= (TextView) convertView.findViewById(R.id.dateTxt);
+        TextView nameTxt= (TextView) convertView.findViewById(R.id.nameView);
+        TextView desceTxt= (TextView) convertView.findViewById(R.id.descView);
+        TextView timeTxt= (TextView) convertView.findViewById(R.id.timeView);
+        TextView dateTxt= (TextView) convertView.findViewById(R.id.dateView);
 
-         Event  event = (Event) this.getItem(position);
+
+        Event  event = (Event) this.getItem(position);
 
         nameTxt.setText(event.getName());
         dateTxt.setText(event.getDate());
         timeTxt.setText(event.getTime());
+        desceTxt.setText(event.getDescription());
 
         //ONITECLICK
         convertView.setOnClickListener(new View.OnClickListener() {

@@ -13,11 +13,11 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Event {
      String name;
-     int eventId;
      String date;
      String time;
-     String bankAccountDetails;
-     ArrayList<Guest> guestList;
+     String description;
+    String bankAccountDetails;
+     List<Guest> guestList;
      int counterGuests;
      String invitationPath;
 
@@ -25,13 +25,14 @@ public class Event {
     {
 
     }
-    public Event(String name, String date, String time,String bankAccountDetails, String invitationPath, ArrayList<Guest> guestList) {
+    public Event(String name, String date, String time,String desc,String bankAccountDetails, String invitationPath, List<Guest> guestList) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.guestList = guestList;
         this.bankAccountDetails = bankAccountDetails;
         this.invitationPath = invitationPath;
+        this.description = desc;
         this.counterGuests = 0;
     }
 
@@ -39,9 +40,6 @@ public class Event {
         return name;
     }
 
-    public int getEventId() {
-        return eventId;
-    }
 
     public int getCounterGuests() {
         return counterGuests;
@@ -76,7 +74,7 @@ public class Event {
         return bankAccountDetails;
     }
 
-    public ArrayList<Guest> getGuestList() {
+    public List<Guest> getGuestList() {
         return guestList;
     }
 
@@ -102,6 +100,19 @@ public class Event {
 
     public String getInvitationPath() {
         return invitationPath;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setInvitationPath(String invitationPath) {
+        this.invitationPath = invitationPath;
     }
 }
 
