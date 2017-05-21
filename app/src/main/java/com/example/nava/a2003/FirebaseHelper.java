@@ -51,8 +51,14 @@ public class FirebaseHelper {
     private void fetchData(DataSnapshot dataSnapshot)
     {
         events.clear();
-        Event event1 = dataSnapshot.getValue(Event.class);
-        events.add(event1);
+
+        for (DataSnapshot ds : dataSnapshot.getChildren())
+        {
+            Event event1 = dataSnapshot.getValue(Event.class);
+            events.add(event1);
+        }
+       // Event event1 = dataSnapshot.getValue(Event.class);
+        //events.add(event1);
     }
 
     //RETRIEVE

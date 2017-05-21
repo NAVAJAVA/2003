@@ -51,7 +51,7 @@ public class CustomAdapter extends BaseAdapter{
         TextView dateTxt= (TextView) convertView.findViewById(R.id.descTxt);
         TextView timeTxt= (TextView) convertView.findViewById(R.id.dateTxt);
 
-        final Event  event = (Event) this.getItem(position);
+         Event  event = (Event) this.getItem(position);
 
         nameTxt.setText(event.getName());
         dateTxt.setText(event.getDate());
@@ -61,7 +61,7 @@ public class CustomAdapter extends BaseAdapter{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(c,event.getName(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(c,"bla bla",Toast.LENGTH_SHORT).show();
             }
         });
         return convertView;

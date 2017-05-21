@@ -39,12 +39,9 @@ public class Main2Activity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
      SectionsPagerAdapter mSectionsPagerAdapter;
-     DatabaseReference db;
-     FirebaseHelper helper;
-     CustomAdapter adapter;
-     ListView lv;
-     EditText nameEditTxt, dateTxt, timeTxt;
      ViewPager mViewPager;
+
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -56,12 +53,6 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-
-       // lv = (ListView) findViewById(R.id.lv);
-
-        //INITIALIZE FIREBASE DB
-        //db = FirebaseDatabase.getInstance().getReference();
-        //helper = new FirebaseHelper(db);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarActivity_main2);
         setSupportActionBar(toolbar);
@@ -77,13 +68,7 @@ public class Main2Activity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_activity_main2);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayInputDialog();
-            }
-        });
+
     }
 
 
@@ -118,6 +103,11 @@ public class Main2Activity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        DatabaseReference db;
+        FirebaseHelper helper;
+        CustomAdapter adapter;
+        ListView lv;
+        EditText nameEditTxt, dateTxt, timeTxt;
 
         public PlaceholderFragment() {
         }
@@ -133,76 +123,78 @@ public class Main2Activity extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+        //DISPLAY INPUT DIALOG
+        private void displayInputDialog() {
+             final Dialog d = new Dialog(getContext());
+            d.setTitle("Save To Firebase");
+            d.setContentView(R.layout.input_dialog);
+
+            nameEditTxt = (EditText) d.findViewById(R.id.nameEditText);
+            dateTxt = (EditText) d.findViewById(R.id.dateEditText);
+            timeTxt = (EditText) d.findViewById(R.id.timeEditText);
+            final Button saveBtn = (Button) d.findViewById(R.id.saveBtn);
+
+            //SAVE
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //GET DATA
+                    String name = nameEditTxt.getText().toString();
+                    String date = dateTxt.getText().toString();
+                    String time= timeTxt.getText().toString();
+
+                    //SET DATA
+                    Event event = new Event();
+                    event.setName(name);
+                    event.setDate(date);
+                    event.setTime(time);
+
+                    //SIMPLE VALIDATION
+                    if (name != null && name.length() > 0) {
+                        //THEN SAVE
+                        if (helper.save(event)) {
+                            //IF SAVED CLEAR EDITXT
+                            nameEditTxt.setText("");
+                            timeTxt.setText("");
+                            dateTxt.setText("");
+                            d.hide();
+                            adapter = new CustomAdapter(getContext(), helper.retrieve());
+                            lv.setAdapter(adapter);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+            d.show();
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label_main2);
-            ListView listView = (ListView) rootView.findViewById(R.id.lv_fragment_main2);
-            DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-            FirebaseHelper helper = new FirebaseHelper(db);
-            CustomAdapter adapter = new CustomAdapter(container.getContext(),helper.retrieve());
-
-            listView.setAdapter(adapter);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            lv = (ListView) rootView.findViewById(R.id.lv_fragment_main2);
+            //INITIALIZE FIREBASE DB
+            db = FirebaseDatabase.getInstance().getReference();
+            helper = new FirebaseHelper(db);
+            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_fragment_main2);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    displayInputDialog();
+                }
+            });
+            adapter = new CustomAdapter(container.getContext(),helper.retrieve());
+            lv.setAdapter(adapter);
             return rootView;
         }
     }
 
-    //DISPLAY INPUT DIALOG
-    private void displayInputDialog() {
-        Dialog d = new Dialog(this);
-        d.setTitle("Save To Firebase");
-        d.setContentView(R.layout.input_dialog);
-
-        nameEditTxt = (EditText) d.findViewById(R.id.nameEditText);
-        dateTxt = (EditText) d.findViewById(R.id.dateEditText);
-        timeTxt = (EditText) d.findViewById(R.id.timeEditText);
-        final Button saveBtn = (Button) d.findViewById(R.id.saveBtn);
-
-        //SAVE
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //GET DATA
-                String name = nameEditTxt.getText().toString();
-                String date = dateTxt.getText().toString();
-                String time= timeTxt.getText().toString();
-
-                //SET DATA
-                Event event = new Event();
-                event.setName(name);
-                event.setDate(date);
-                event.setTime(time);
-
-
-
-                //SIMPLE VALIDATION
-                if (name != null && name.length() > 0) {
-                    //THEN SAVE
-                    if (helper.save(event)) {
-                        //IF SAVED CLEAR EDITXT
-                        nameEditTxt.setText("");
-                        timeTxt.setText("");
-                        dateTxt.setText("");
-                        adapter = new CustomAdapter(Main2Activity.this, helper.retrieve());
-                        lv.setAdapter(adapter);
-                        saveBtn.setVisibility(View.INVISIBLE);
-
-
-
-                    }
-                } else {
-                    Toast.makeText(Main2Activity.this, "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        d.show();
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
