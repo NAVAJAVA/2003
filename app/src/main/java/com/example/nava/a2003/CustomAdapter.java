@@ -41,6 +41,7 @@ public class CustomAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        System.out.print("i am here");
         if(convertView==null)
         {
             convertView= LayoutInflater.from(c).inflate(R.layout.model,parent,false);

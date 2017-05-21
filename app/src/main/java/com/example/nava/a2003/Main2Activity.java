@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +24,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -103,11 +108,17 @@ public class Main2Activity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        DatabaseReference db;
-        FirebaseHelper helper;
-        CustomAdapter adapter;
-        ListView lv;
-        EditText nameEditTxt, dateTxt, timeTxt;
+        EditText editTextName;
+
+        Button buttonAddArtist;
+        ListView listViewArtists;
+
+        //a list to store all the artist from firebase database
+        List<Artist> artists;
+
+        //our database reference object
+        DatabaseReference databaseArtists;
+
 
         public PlaceholderFragment() {
         }
@@ -123,75 +134,102 @@ public class Main2Activity extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
-        //DISPLAY INPUT DIALOG
-        private void displayInputDialog() {
-             final Dialog d = new Dialog(getContext());
-            d.setTitle("Save To Firebase");
-            d.setContentView(R.layout.input_dialog);
 
-            nameEditTxt = (EditText) d.findViewById(R.id.nameEditText);
-            dateTxt = (EditText) d.findViewById(R.id.dateEditText);
-            timeTxt = (EditText) d.findViewById(R.id.timeEditText);
-            final Button saveBtn = (Button) d.findViewById(R.id.saveBtn);
-
-            //SAVE
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //GET DATA
-                    String name = nameEditTxt.getText().toString();
-                    String date = dateTxt.getText().toString();
-                    String time= timeTxt.getText().toString();
-
-                    //SET DATA
-                    Event event = new Event();
-                    event.setName(name);
-                    event.setDate(date);
-                    event.setTime(time);
-
-                    //SIMPLE VALIDATION
-                    if (name != null && name.length() > 0) {
-                        //THEN SAVE
-                        if (helper.save(event)) {
-                            //IF SAVED CLEAR EDITXT
-                            nameEditTxt.setText("");
-                            timeTxt.setText("");
-                            dateTxt.setText("");
-                            d.hide();
-                            adapter = new CustomAdapter(getContext(), helper.retrieve());
-                            lv.setAdapter(adapter);
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
-
-            d.show();
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label_main2);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            lv = (ListView) rootView.findViewById(R.id.lv_fragment_main2);
-            //INITIALIZE FIREBASE DB
-            db = FirebaseDatabase.getInstance().getReference();
-            helper = new FirebaseHelper(db);
-            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_fragment_main2);
-            fab.setOnClickListener(new View.OnClickListener() {
+            View rootView = inflater.inflate(R.layout.activity_main3, container, false);
+            //getting the reference of artists node
+            databaseArtists = FirebaseDatabase.getInstance().getReference("artists");
+
+            //getting views
+            editTextName = (EditText) rootView.findViewById(R.id.editTextName);
+            listViewArtists = (ListView) rootView.findViewById(R.id.listViewArtists);
+
+            buttonAddArtist = (Button) rootView.findViewById(R.id.buttonAddArtist);
+
+            //list to store artists
+            artists = new ArrayList<>();
+
+
+            //adding an onclicklistener to button
+            buttonAddArtist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    displayInputDialog();
+                    //calling the method addArtist()
+                    //the method is defined below
+                    //this method is actually performing the write operation
+                    addArtist();
                 }
             });
-            adapter = new CustomAdapter(container.getContext(),helper.retrieve());
-            lv.setAdapter(adapter);
+
+           // TextView textView = (TextView) rootView.findViewById(R.id.section_label_main2);
+            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
+        }
+        /*
+    * This method is saving a new artist to the
+    * Firebase Realtime Database
+    * */
+        private void addArtist() {
+            //getting the values to save
+            String name = editTextName.getText().toString().trim();
+
+            //checking if the value is provided
+            if (!TextUtils.isEmpty(name)) {
+
+                //getting a unique id using push().getKey() method
+                //it will create a unique id and we will use it as the Primary Key for our Artist
+                String id = databaseArtists.push().getKey();
+
+                //creating an Artist Object
+                Artist artist = new Artist(id, name);
+
+                //Saving the Artist
+                databaseArtists.child(id).setValue(artist);
+
+                //setting edittext to blank again
+                editTextName.setText("");
+
+                //displaying a success toast
+                Toast.makeText(getActivity(), "Artist added", Toast.LENGTH_LONG).show();
+            } else {
+                //if the value is not given displaying a toast
+                Toast.makeText(getActivity(), "Please enter a name", Toast.LENGTH_LONG).show();
+            }
+        }
+        @Override
+        public void onStart() {
+            super.onStart();
+            //attaching value event listener
+            databaseArtists.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    //clearing the previous artist list
+                    artists.clear();
+
+                    //iterating through all the nodes
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        //getting artist
+                        Artist artist = postSnapshot.getValue(Artist.class);
+                        //adding artist to the list
+                        artists.add(artist);
+                    }
+
+                    //creating adapter
+                    ArtistList artistAdapter = new ArtistList(getActivity(), artists);
+                    //attaching adapter to the listview
+                    listViewArtists.setAdapter(artistAdapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
