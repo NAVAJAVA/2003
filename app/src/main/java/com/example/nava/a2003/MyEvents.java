@@ -154,7 +154,6 @@ public class MyEvents extends Fragment {
 
                 //clearing the previous events list
                 evnets.clear();
-
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting artist
@@ -162,13 +161,9 @@ public class MyEvents extends Fragment {
                     //adding artist to the list
                     evnets.add(event);
                 }
-                //if not good just cange art to event addpterererush
-                //creating adapter
-                //  ArtistList artistAdapter = new ArtistList(getActivity(), artists);
-                // listViewEvents.setAdapter(artistAdapter);
+
                 CustomAdapter adpter = new CustomAdapter(getActivity(), evnets);
                 listViewEvents.setAdapter(adpter);
-                //attaching adapter to the listview
 
             }
 

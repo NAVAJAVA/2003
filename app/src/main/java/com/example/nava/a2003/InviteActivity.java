@@ -23,6 +23,7 @@ public class InviteActivity extends  AppCompatActivity
    private Fragment fragment = null;
    private Class fragmentClass = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,23 +46,7 @@ public class InviteActivity extends  AppCompatActivity
         }
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabInvited);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             //   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-              //          .setAction("Action", null).show();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContentInvite ,new CreateEventFragment())
-                        .commit();
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabInvited);
-                fab.setVisibility(View.GONE);
 
-
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layoutInvited);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
