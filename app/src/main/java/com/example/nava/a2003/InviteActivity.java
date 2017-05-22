@@ -114,8 +114,6 @@ public class InviteActivity extends  AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_guests) {
             fragmentClass = GuestsFragment.class;
-        }   else if (id == R.id.nav_calendar) {
-            fragmentClass = CalendarFragment.class;
         }   else if (id == R.id.nav_gallery) {
             fragmentClass = GalleryFragment.class;
         }   else if (id == R.id.nav_seats) {

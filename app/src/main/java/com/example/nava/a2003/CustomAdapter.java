@@ -1,6 +1,7 @@
 package com.example.nava.a2003;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -63,7 +64,12 @@ public class CustomAdapter extends BaseAdapter{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Toast.makeText(c,"bla bla",Toast.LENGTH_SHORT).show();
+               // startActivity(new Intent(v.getContext(),SignupActivity.class));
+
+
             }
         });
         return convertView;

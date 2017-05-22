@@ -94,11 +94,11 @@ public class Main2Activity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below)
             if(0 == position)
             {
-                MyEvents L2 = new MyEvents();
+                InvitedTo L2 = new InvitedTo();
                 return L2;
 
             }
-            ListEvent L1 = new ListEvent();
+            MyEvents L1 = new MyEvents();
             return L1;
 
 
