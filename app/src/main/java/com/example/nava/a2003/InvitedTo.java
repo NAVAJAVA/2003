@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,8 @@ public class InvitedTo extends Fragment {
     EditText dateTxt;
     EditText timeTxt;
     EditText bankTxt;
+    ProgressBar progressBar;
+
 
     public InvitedTo() {
     }
@@ -45,11 +48,13 @@ public class InvitedTo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_my_events, container, false);
+        View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
         //getting the reference of events node
         databaseEventsinvitedTo = FirebaseDatabase.getInstance().getReference("Invited To");
         //getting views
         listViewInvitedTo = (ListView) rootView.findViewById(R.id.listViewEvents);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
+        progressBar.setVisibility(View.VISIBLE);
 
         //list to store events
         evnetsInvitedTO = new ArrayList<>();
@@ -156,6 +161,8 @@ public class InvitedTo extends Fragment {
 
                 CustomAdapter adpter = new CustomAdapter(getActivity(), evnetsInvitedTO);
                 listViewInvitedTo.setAdapter(adpter);
+                progressBar.setVisibility(View.GONE);
+
 
             }
 

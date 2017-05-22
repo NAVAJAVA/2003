@@ -1,7 +1,6 @@
 package com.example.nava.a2003;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +39,7 @@ public class MyEvents extends Fragment {
     List<Event> evnets;
     //our database reference object
     DatabaseReference databaseEvents;
+    ProgressBar progressBar;
 
 
     public MyEvents() {
@@ -48,9 +49,11 @@ public class MyEvents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_my_events, container, false);
+        View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
         //getting the reference of artists node
         databaseEvents = FirebaseDatabase.getInstance().getReference("My Events");
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
+        progressBar.setVisibility(View.VISIBLE);
         //getting views
         listViewEvents = (ListView) rootView.findViewById(R.id.listViewEvents);
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
@@ -164,6 +167,8 @@ public class MyEvents extends Fragment {
 
                 CustomAdapter adpter = new CustomAdapter(getActivity(), evnets);
                 listViewEvents.setAdapter(adpter);
+                progressBar.setVisibility(View.GONE);
+
 
             }
 
