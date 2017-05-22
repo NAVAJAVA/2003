@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="105dp"
         android:orientation="vertical"
 
         android:visibility="visible">
@@ -45,16 +45,6 @@
             android:text="Time"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/descView"
-            android:layout_width="wrap_content"
-            android:layout_height="69dp"
-            android:layout_alignParentLeft="true"
-            android:lines="3"
-            android:padding="10dp"
-            android:text="Description....................."
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

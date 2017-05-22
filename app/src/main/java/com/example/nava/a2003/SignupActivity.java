@@ -101,7 +101,7 @@ public class SignupActivity  extends AppCompatActivity {
 
 
                                     } else {
-                                        startActivity(new Intent(SignupActivity.this, ChoiceActivity.class));
+                                        startActivity(new Intent(SignupActivity.this, Main2Activity.class));
                                         finish();
                                     }
                                 }

@@ -47,7 +47,7 @@ public class CustomAdapter extends BaseAdapter{
         }
 
         TextView nameTxt= (TextView) convertView.findViewById(R.id.nameView);
-        TextView desceTxt= (TextView) convertView.findViewById(R.id.descView);
+       // TextView desceTxt= (TextView) convertView.findViewById(R.id.descView);
         TextView timeTxt= (TextView) convertView.findViewById(R.id.timeView);
         TextView dateTxt= (TextView) convertView.findViewById(R.id.dateView);
 
@@ -57,7 +57,7 @@ public class CustomAdapter extends BaseAdapter{
         nameTxt.setText(event.getName());
         dateTxt.setText(event.getDate());
         timeTxt.setText(event.getTime());
-        desceTxt.setText(event.getDescription());
+       // desceTxt.setText(event.getDescription());
 
         //ONITECLICK
         convertView.setOnClickListener(new View.OnClickListener() {
