@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nava.a2003.SeatsFragment">
+    tools:context="com.example.nava.a2003.My_Events.SeatsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

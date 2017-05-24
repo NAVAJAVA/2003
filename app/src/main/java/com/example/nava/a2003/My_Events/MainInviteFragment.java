@@ -1,15 +1,12 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.My_Events;
+
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.nava.a2003.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,38 +31,32 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateEventFragment.OnFragmentInteractionListener} interface
+ * {@link MainInviteFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CreateEventFragment#newInstance} factory method to
+ * Use the {@link MainInviteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateEventFragment extends Fragment {
+public class MainInviteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
     private EditText txtEventName;
     private EditText txtTime;
     private EditText txtDate;
     private EditText txtBankDetails;
     private Button btnCreate;
     private Button btnInvitation;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("Invited To");
     private static int RESULT_LOAD_IMAGE = 1;
     private  String picturePath;
-    private View mContentView = null;
-
-
-
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
-    public CreateEventFragment() {
+    public MainInviteFragment() {
         // Required empty public constructor
     }
 
@@ -73,11 +66,11 @@ public class CreateEventFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateEventFragment.
+     * @return A new instance of fragment MainInviteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateEventFragment newInstance(String param1, String param2) {
-        CreateEventFragment fragment = new CreateEventFragment();
+    public static MainInviteFragment newInstance(String param1, String param2) {
+        MainInviteFragment fragment = new MainInviteFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -92,13 +85,47 @@ public class CreateEventFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        mContentView = inflater.inflate(R.layout.fragment_create_event , null);
+
     }
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
-       // ImageView imageView = (ImageView) view.findViewById(R.id.imgViewIn);
-        //imageView.setImageResource(R.drawable.black);
-        mContentView = view;
+    @Override
+    public void onStart() {
+        super.onStart();
+        //attaching value event listener
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+
+                //clearing the previous events list
+                //iterating through all the nodes
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    //getting event
+                    //Event event = postSnapshot.getValue(Event.class);
+                   // Log.d("", "here:" + event.getName());
+
+
+                }
+
+               // CustomAdapter adpter = new CustomAdapter(getActivity(), evnetsInvitedTO, idOfFragment);
+               // listViewInvitedTo.setAdapter(adpter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.fragment_main_invite, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        txtEventName = (EditText) view.findViewById(R.id.txtEventName);
+
         btnInvitation = (Button) view.findViewById(R.id.btnInvitation);
         btnInvitation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,61 +136,11 @@ public class CreateEventFragment extends Fragment {
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
+        return view;
 
 
-        btnCreate = (Button) view.findViewById(R.id.btnCreate);
-        txtEventName = (EditText) view.findViewById(R.id.txtEventName);
-        txtDate = (EditText) view.findViewById(R.id.txtDate);
-        txtTime = (EditText) view.findViewById(R.id.txtTime);
-        txtBankDetails = (EditText) view.findViewById(R.id.txtBankDetails);
-
-
-
-        //when btncreate is pressend add to database and go back to main?
-
-        assert btnCreate != null;
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (txtEventName.getText().toString().equals("") ||
-                      txtTime.getText().toString().equals("") ||
-                        txtDate.getText().toString().equals("") ||
-                        txtBankDetails.getText().toString().equals("") )
-                {
-                    Toast.makeText(getContext(),
-                            R.string.errorMissingInfo, Toast.LENGTH_SHORT).show();
-                }
-                //all info was typed in
-                else
-                {
-                    // Add event to database
-                    DatabaseReference nameRef = database.getReference("Event Name");
-                    DatabaseReference timeRef = database.getReference("Event Time");
-                    DatabaseReference dateRef = database.getReference("Event Date");
-                    DatabaseReference bankRef = database.getReference("Bank account details");
-
-
-
-
-                    //to do - to ascribe the user table?
-                    nameRef.setValue(txtEventName.getText().toString().trim());
-                    timeRef.setValue(txtTime.getText().toString().trim());
-                    dateRef.setValue(txtDate.getText().toString().trim());
-                    bankRef.setValue(txtBankDetails.getText().toString().trim());
-                }
-
-            }
-        });
 
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_event, container, false);
-
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -181,13 +158,9 @@ public class CreateEventFragment extends Fragment {
             cursor.close();
 
 
-            DatabaseReference pathInvitation = database.getReference("path Invitation");
-            pathInvitation.setValue(picturePath);
-           // ImageView imageView = (ImageView) mContentView.findViewById(R.id.imgViewIn);
-            //imageView.setImageResource(R.drawable.black);
-
-
-            ImageView imageView = (ImageView) mContentView.findViewById(R.id.imgViewIn);
+          //  DatabaseReference pathInvitation = database.getReference("path Invitation");
+           // pathInvitation.setValue(picturePath);
+            ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
             //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
             File imgFile = new  File(picturePath);
@@ -200,9 +173,6 @@ public class CreateEventFragment extends Fragment {
         }
 
     }
-
-
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

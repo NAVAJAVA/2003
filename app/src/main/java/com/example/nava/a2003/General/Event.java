@@ -1,7 +1,7 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.General;
 
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -11,12 +11,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * Created by Nava on 10/05/2017.
  */
 @IgnoreExtraProperties
-public class Event {
+public class Event  implements Serializable {
      String name;
      String date;
      String time;
      String description;
-    String bankAccountDetails;
+     String bankAccountDetails;
      List<Guest> guestList;
      int counterGuests;
      String invitationPath;
@@ -29,7 +29,7 @@ public class Event {
         this.name = name;
         this.date = date;
         this.time = time;
-        this.guestList = guestList;
+        this.guestList = null;
         this.bankAccountDetails = bankAccountDetails;
         this.invitationPath = invitationPath;
         this.description = desc;
@@ -90,7 +90,7 @@ public class Event {
         this.bankAccountDetails = bankAccountDetails;
     }
 
-    public void setGuestList(ArrayList<Guest> guestList) {
+    public void setGuestList(List<Guest> guestList) {
         this.guestList = guestList;
     }
 

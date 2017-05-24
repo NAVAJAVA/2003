@@ -1,33 +1,29 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.Invited_To;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.nava.a2003.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentSix.OnFragmentInteractionListener} interface
+ * {@link FragmentTwo.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentSix#newInstance} factory method to
+ * Use the {@link FragmentTwo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSix extends Fragment {
+public class FragmentTwo extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    WebView wv;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -35,7 +31,7 @@ public class FragmentSix extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentSix() {
+    public FragmentTwo() {
         // Required empty public constructor
     }
 
@@ -45,17 +41,20 @@ public class FragmentSix extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentOne.
+     * @return A new instance of fragment FragmentTwo.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSix newInstance(String param1, String param2) {
-        FragmentSix fragment = new FragmentSix();
+    public static FragmentTwo newInstance(String param1, String param2) {
+        FragmentTwo fragment = new FragmentTwo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,24 +66,10 @@ public class FragmentSix extends Fragment {
     }
 
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setUserVisibleHint(true);
-        View rootView = inflater.inflate(R.layout.fragment_fragment_six, container, false);
-        Button button = (Button) rootView.findViewById(R.id.btnBit);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                // Perform action on click
-                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
-                myWebLink.setData(Uri.parse("http://www.bitpay.co.il"));
-                startActivity(myWebLink);
-                Toast.makeText(getActivity(), "Please enter correct information", Toast.LENGTH_LONG).show();
-            }
-        });
-        return rootView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_fragment_two, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

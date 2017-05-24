@@ -9,30 +9,40 @@ android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 android:paddingBottom="@dimen/activity_vertical_margin"
-tools:context="com.example.nava.a2003.GuestsFragment"
+tools:context="com.example.nava.a2003.My_Events.GuestsFragment"
 android:orientation="vertical">
 
-<ListView
-    android:id="@+id/listView"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1">
-</ListView>
+    <ListView
+        android:id="@+id/listViewGuests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_weight="0.85"></ListView>
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="bottom">
-    <EditText
-        android:id="@+id/todoText"
+
+    <ProgressBar
+        android:id="@+id/progressBarGuests"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/editTextGuest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/addButtonGuests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/addGuest"/>
+        android:text="@string/addGuest" />
 </LinearLayout>
 
 </LinearLayout>

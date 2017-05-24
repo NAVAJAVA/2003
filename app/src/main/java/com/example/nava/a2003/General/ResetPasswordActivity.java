@@ -1,4 +1,4 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.General;
 
 
         import android.content.Intent;
@@ -12,6 +12,7 @@ package com.example.nava.a2003;
         import android.widget.ProgressBar;
         import android.widget.Toast;
 
+        import com.example.nava.a2003.R;
         import com.google.android.gms.tasks.OnCompleteListener;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.FirebaseAuth;

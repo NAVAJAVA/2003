@@ -1,4 +1,4 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.Invited_To;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,26 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.util.UUID;
+import com.example.nava.a2003.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentThree.OnFragmentInteractionListener} interface
+ * {@link FragmentFour.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentThree#newInstance} factory method to
+ * Use the {@link FragmentFour#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentThree extends Fragment {
+public class FragmentFour extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +30,12 @@ public class FragmentThree extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private EditText editText;
+    private Button attend;
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentThree() {
+    public FragmentFour() {
         // Required empty public constructor
     }
 
@@ -49,11 +45,11 @@ public class FragmentThree extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentThree.
+     * @return A new instance of fragment FragmentOne.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentThree newInstance(String param1, String param2) {
-        FragmentThree fragment = new FragmentThree();
+    public static FragmentFour newInstance(String param1, String param2) {
+        FragmentFour fragment = new FragmentFour();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,26 +63,15 @@ public class FragmentThree extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String path = "fire/" + UUID.randomUUID() +".png";
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
-        StorageReference ref = storage.getReference(path);
-        //StorageMetadata metadata = new StorageMetadata.Builder()
-        UploadTask uploadTask = ref.putFile(Uri.EMPTY);
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
-
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_three, container, false);
+        return inflater.inflate(R.layout.fragment_fragment_four, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

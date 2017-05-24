@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nava.a2003.Main2Activity">
+    tools:context="com.example.nava.a2003.General.Main2Activity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarActivity_main2"

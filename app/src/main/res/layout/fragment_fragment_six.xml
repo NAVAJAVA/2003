@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize"
-    tools:context=".FragmentSix"
+    tools:context=".Invited_To.FragmentSix"
     android:weightSum="1">
 
 

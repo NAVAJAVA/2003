@@ -1,4 +1,4 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.General;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nava.a2003.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 

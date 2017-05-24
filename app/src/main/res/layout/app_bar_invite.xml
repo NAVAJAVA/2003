@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/flContentInvite"
-    tools:context="com.example.nava.a2003.InviteActivity">
+    tools:context="com.example.nava.a2003.My_Events.InviteActivity">
 
 
 

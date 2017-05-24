@@ -1,10 +1,7 @@
-package com.example.nava.a2003;
+package com.example.nava.a2003.General;
 
 
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
@@ -14,6 +11,10 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.nava.a2003.Invited_To.InvitedTo;
+import com.example.nava.a2003.My_Events.MyEvents;
+import com.example.nava.a2003.R;
 
 
 public class Main2Activity extends AppCompatActivity {
@@ -94,7 +95,6 @@ public class Main2Activity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below)
             if(0 == position)
             {
                 InvitedTo L2 = new InvitedTo();
@@ -103,7 +103,6 @@ public class Main2Activity extends AppCompatActivity {
             }
             MyEvents L1 = new MyEvents();
             return L1;
-
 
         }
 

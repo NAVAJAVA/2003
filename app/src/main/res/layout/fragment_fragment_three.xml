@@ -3,7 +3,7 @@
     android:background="@color/colorfragmentone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentThree">
+    tools:context=".Invited_To.FragmentThree">
 
     <!-- TODO: Update blank fragment layout -->
 
