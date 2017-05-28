@@ -32,8 +32,7 @@ import java.util.List;
 public class InvitedTo extends Fragment {
     ListView listViewInvitedTo;
     List<Event> evnetsInvitedTO;
-    DatabaseReference databaseEventsinvitedTo;
-
+    DatabaseReference databaseEvents;
     ProgressBar progressBar;
     int idOfFragment = 0;
 
@@ -46,7 +45,7 @@ public class InvitedTo extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
         //getting the reference of events node
-        databaseEventsinvitedTo = FirebaseDatabase.getInstance().getReference("Invited To");
+        databaseEvents = FirebaseDatabase.getInstance().getReference("Events 2");
         //getting views
         listViewInvitedTo = (ListView) rootView.findViewById(R.id.listViewEvents);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
@@ -56,7 +55,6 @@ public class InvitedTo extends Fragment {
         evnetsInvitedTO = new ArrayList<>();
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
         fab.hide();
-
         return rootView;
     }
 
@@ -65,7 +63,7 @@ public class InvitedTo extends Fragment {
     public void onStart() {
         super.onStart();
         //attaching value event listener
-        databaseEventsinvitedTo.addValueEventListener(new ValueEventListener() {
+        databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -86,7 +84,6 @@ public class InvitedTo extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

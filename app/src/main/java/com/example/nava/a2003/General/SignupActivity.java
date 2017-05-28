@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Nava on 20/03/2017.
@@ -29,19 +31,18 @@ public class SignupActivity  extends AppCompatActivity {
     private EditText password;
     private EditText name;
     private FirebaseAuth auth;
+    private DatabaseReference myRef;
+
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_signup);
-
+        setContentView(R.layout.activity_signup);
+        myRef = FirebaseDatabase.getInstance().getReference("Users");
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
-
-
         //setting name of app in center
         ActionBar ab = getSupportActionBar();
         TextView textview = new TextView(getApplicationContext());
@@ -68,26 +69,35 @@ public class SignupActivity  extends AppCompatActivity {
 
                 if (password.getText().toString().equals("") ||
                         name.getText().toString().equals("") ||
-                        email.getText().toString().equals("") || strPassword.length()<6) {
-                    if(strPassword.length() < 6){
+                        email.getText().toString().equals("") || strPassword.length() < 6) {
+                    if (strPassword.length() < 6) {
                         Toast.makeText(getApplicationContext(), R.string.minimum_password, Toast.LENGTH_SHORT).show();
 
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                R.string.errorMissingInfo, Toast.LENGTH_SHORT).show();
                     }
-                    else{
-                    Toast.makeText(getApplicationContext(),
-                            R.string.errorMissingInfo, Toast.LENGTH_SHORT).show();
-                }}
+                }
 
-                //all details are ok - send to server?
+                //all details are ok - send to server
                 else {
-                   // progressBar.setVisibility(View.VISIBLE);
+                    // progressBar.setVisibility(View.VISIBLE);
                     //create user
                     auth.createUserWithEmailAndPassword(strEmail, strPassword)
                             .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                   // progressBar.setVisibility(View.GONE);
+                                    String strEmail = email.getText().toString().trim();
+                                    String strName = name.getText().toString().trim();
+                                    String id = myRef.push().getKey();
+                                    User currentUser = new User();
+                                    currentUser.setName(strEmail);
+                                    currentUser.setEmail(strName);
+                                    myRef.child(id).setValue(currentUser);
+
+
+                                    // progressBar.setVisibility(View.GONE);
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
                                     // signed in user can be handled in the listener.
@@ -119,4 +129,5 @@ public class SignupActivity  extends AppCompatActivity {
             }
         });
     }
+
 }

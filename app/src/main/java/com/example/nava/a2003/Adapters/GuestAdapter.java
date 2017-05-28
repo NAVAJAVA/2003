@@ -59,7 +59,7 @@ public class GuestAdapter extends BaseAdapter {
         final Guest guest = (Guest) this.getItem(position);
 
         nameTxt.setText(guest.getName());
-        phoneTxt.setText(guest.getPhoneNumber());
+        //phoneTxt.setText(guest.getPhoneNumber());
 
         //ONITECLICK
         convertView.setOnClickListener(new View.OnClickListener() {

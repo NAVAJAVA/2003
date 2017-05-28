@@ -1,5 +1,6 @@
 package com.example.nava.a2003.My_Events;
 
+import android.content.Intent;
 import android.net.Uri;
 
 import android.os.Bundle;
@@ -11,10 +12,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.nava.a2003.Adapters.CustomAdapter;
+import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
@@ -22,6 +32,8 @@ public class InviteActivity extends  AppCompatActivity
         MainInviteFragment.OnFragmentInteractionListener, CreateEventFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
+    DatabaseReference databaseEvents;
+
 
 
 
@@ -29,6 +41,13 @@ public class InviteActivity extends  AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
+        //gets the currentIdEvent from customAdapter
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String CurrentIdEvnet = bundle.getString("CurrentIdEvnet");
+        //send  CurrentIdEvnet to MainIvitedFragment
+        getIntent().putExtra("CurrentIdEvnet", CurrentIdEvnet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarInvited);
         setSupportActionBar(toolbar);
 
@@ -42,6 +61,7 @@ public class InviteActivity extends  AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
         }
@@ -67,6 +87,7 @@ public class InviteActivity extends  AppCompatActivity
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,7 +133,6 @@ public class InviteActivity extends  AppCompatActivity
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layoutInvited);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -122,4 +142,7 @@ public class InviteActivity extends  AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }
+

@@ -6,17 +6,9 @@
 
         android:gravity="center"
         android:orientation="vertical"
-        android:windowSoftInputMode="adjustResize"
-        tools:context=".Invited_To.FragmentFour">
+        android:windowSoftInputMode="adjustResize">
 
 
-    <EditText
-        android:id="@+id/txtCounter"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/howMany"
-        android:inputType="textEmailAddress" />
 
         <LinearLayout
             android:id="@+id/btnsSignlinearLayout"

@@ -11,15 +11,17 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * Created by Nava on 10/05/2017.
  */
 @IgnoreExtraProperties
-public class Event  implements Serializable {
+public class Event implements Serializable {
      String name;
      String date;
      String time;
      String description;
      String bankAccountDetails;
      List<Guest> guestList;
+     List<User> owners;
      int counterGuests;
      String invitationPath;
+     String idEvent;
 
     public Event()
     {
@@ -113,6 +115,22 @@ public class Event  implements Serializable {
 
     public void setInvitationPath(String invitationPath) {
         this.invitationPath = invitationPath;
+    }
+
+    public List<User> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<User> owners) {
+        this.owners = owners;
+    }
+
+    public String getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(String idEvent) {
+        this.idEvent = idEvent;
     }
 }
 

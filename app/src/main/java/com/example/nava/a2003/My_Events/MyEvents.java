@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class MyEvents extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
         //getting the reference of event node
-        databaseEvents = FirebaseDatabase.getInstance().getReference("My Events");
+        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
         progressBar.setVisibility(View.VISIBLE);
         //getting views
@@ -116,7 +117,6 @@ public class MyEvents extends Fragment {
         String date = dateTxt.getText().toString().trim();
         String bank = bankTxt.getText().toString().trim();
 
-
         //checking if the value is provided
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(time)
                 && !TextUtils.isEmpty(date)&& !TextUtils.isEmpty(bank) ) {
@@ -124,23 +124,17 @@ public class MyEvents extends Fragment {
             //getting a unique id using push().getKey() method
             //it will create a unique id and we will use it as the Primary Key for our event
             String id = databaseEvents.push().getKey();
-
             //creating an Event Object
-
             Event event = new Event();
             event.setName(name);
             event.setDate(date);
             event.setTime(time);
             event.setBankAccountDetails(bank);
-
-
+            event.setIdEvent(id);
             //Saving the event
             databaseEvents.child(id).setValue(event);
-
-
             //displaying a success toast
             Toast.makeText(getActivity(), "Event added", Toast.LENGTH_LONG).show();
-            //startActivity(new Intent(this.getActivity(),OperationActivity.class));
 
         } else {
             //if the value is not given displaying a toast
@@ -160,9 +154,11 @@ public class MyEvents extends Fragment {
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting event
+                    Log.d("FB children", postSnapshot.getKey());
                     Event event = postSnapshot.getValue(Event.class);
                     //adding event to the list
                     evnets.add(event);
+                    //add to id of each event the path by postSnapshot.getRef()
                 }
 
                 CustomAdapter adpter = new CustomAdapter(getActivity(), evnets,idOfFragment);

@@ -73,8 +73,10 @@ public class CustomAdapter extends BaseAdapter{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //when an item is  pressed so get its id from db and send it in the intent
                 Log.d("","go:"+event.getName());
+                Log.d("FB ref",databaseEvents.getKey());
+              //  Log.d("FB ref",databaseEvents);
+
 
                 if(0 == idOfFragment) {
                     c.startActivity(new Intent(c,OperationActivity.class));
@@ -83,7 +85,10 @@ public class CustomAdapter extends BaseAdapter{
 
                 }
                 else {
-                    c.startActivity(new Intent(c,InviteActivity.class));
+                    //when an item is  pressed so get its id from db and send it in the intent
+                    c.startActivity(new Intent(c,InviteActivity.class).putExtra("CurrentIdEvnet",event.getIdEvent()
+                    ));
+
                 }
 
             }

@@ -1,44 +1,39 @@
 package com.example.nava.a2003.General;
 
 
+import java.io.Serializable;
+
 /**
  * Created by Nava on 11/05/2017.
  */
 
-public class Guest {
+public class Guest implements Serializable {
 
     private String name;
-    private String PhoneNumber;
+    private String email;
     private int seat;
-    private  int amountOfGuests;
+    private boolean rsvp = false;
 
 
     public Guest() {
 
     }
 
-    public Guest(String name, String phoneNumber, int seat, int amountOfGuests) {
+    public Guest(String name, String email, int seat) {
         this.name = name;
-        PhoneNumber = phoneNumber;
+        this.email = email;
         this.seat = seat;
-        this.amountOfGuests = amountOfGuests;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPhoneNumber() {
-        return PhoneNumber;
-    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
-    }
 
     public int getSeat() {
         return seat;
@@ -48,11 +43,11 @@ public class Guest {
         this.seat = seat;
     }
 
-    public int getAmountOfGuests() {
-        return amountOfGuests;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAmountOfGuests(int amountOfGuests) {
-        this.amountOfGuests = amountOfGuests;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

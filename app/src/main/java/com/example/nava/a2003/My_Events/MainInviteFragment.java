@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,8 +52,9 @@ public class MainInviteFragment extends Fragment {
     private EditText txtDate;
     private EditText txtBankDetails;
     private Button btnCreate;
+    private String currentIdEvent="";
     private Button btnInvitation;
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("Invited To");
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
     private static int RESULT_LOAD_IMAGE = 1;
     private  String picturePath;
     private OnFragmentInteractionListener mListener;
@@ -77,10 +80,15 @@ public class MainInviteFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    public void passData(String currentIdEvent) {
+        this.currentIdEvent = currentIdEvent;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
+         Log.d("CurrentIdEvnet22:",  currentIdEvent );
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -91,24 +99,23 @@ public class MainInviteFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //attaching value event listener
+
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                //clearing the previous events list
-                //iterating through all the nodes
+                Log.d("hey","he");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting event
-                    //Event event = postSnapshot.getValue(Event.class);
-                   // Log.d("", "here:" + event.getName());
-
-
+                    Event event = postSnapshot.getValue(Event.class);
+                    //getting the event which was pressed
+                    if(event.getIdEvent().equals(currentIdEvent))
+                    {
+                        txtEventName.setText(event.getName().toString().trim());
+                        txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
+                        txtTime.setText(event.getTime().toString().trim());
+                        txtDate.setText(event.getDate().toString().trim());
+                    }
                 }
-
-               // CustomAdapter adpter = new CustomAdapter(getActivity(), evnetsInvitedTO, idOfFragment);
-               // listViewInvitedTo.setAdapter(adpter);
             }
 
             @Override
@@ -122,10 +129,31 @@ public class MainInviteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_main_invite, container, false);
         View view = inflater.inflate(R.layout.fragment_create_event, container, false);
         txtEventName = (EditText) view.findViewById(R.id.txtEventName);
-
+        txtBankDetails = (EditText) view.findViewById(R.id.txtBankDetails);
+        txtTime = (EditText) view.findViewById(R.id.txtTime);
+        txtDate = (EditText) view.findViewById(R.id.txtDate);
+        btnCreate = (Button) view.findViewById(R.id.btnCreate);
+        /*
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                String name = txtEventName.getText().toString().trim();
+                String time =  txtTime.getText().toString().trim();
+                String date =  txtDate.getText().toString().trim();
+                String bank = txtBankDetails.getText().toString().trim();
+                Event event = new Event();
+                event.setName(name);
+                event.setDate(date);
+                event.setTime(time);
+                event.setBankAccountDetails(bank);
+                //Saving the event
+                Log.d("after",":)");
+                database.child(currentIdEvent).setValue(event);
+            }
+        });
+*/
         btnInvitation = (Button) view.findViewById(R.id.btnInvitation);
         btnInvitation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,8 +186,8 @@ public class MainInviteFragment extends Fragment {
             cursor.close();
 
 
-          //  DatabaseReference pathInvitation = database.getReference("path Invitation");
-           // pathInvitation.setValue(picturePath);
+            //  DatabaseReference pathInvitation = database.getReference("path Invitation");
+            // pathInvitation.setValue(picturePath);
             ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
             //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
