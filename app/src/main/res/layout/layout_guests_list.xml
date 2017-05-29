@@ -11,9 +11,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="050 - 992993049"
+        android:text="ano@mail.com"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:id="@+id/textViewPhone"
+        android:id="@+id/textViewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

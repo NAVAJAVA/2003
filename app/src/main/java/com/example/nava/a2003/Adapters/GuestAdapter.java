@@ -17,11 +17,6 @@ import java.util.List;
  */
 
 
-/**
- * Created by Oclemy on 6/21/2016 for ProgrammingWizards Channel and http://www.camposha.com.
- * 1. where WE INFLATE OUR MODEL LAYOUT INTO VIEW ITEM
- * 2. THEN BIND DATA
- */
 public class GuestAdapter extends BaseAdapter {
     Context c;
     List<Guest> guestsList;
@@ -54,12 +49,13 @@ public class GuestAdapter extends BaseAdapter {
         }
 
         TextView nameTxt= (TextView) convertView.findViewById(R.id.textViewName);
-        TextView phoneTxt= (TextView) convertView.findViewById(R.id.textViewPhone);
+        TextView emailTxt= (TextView) convertView.findViewById(R.id.textViewEmail);
 
         final Guest guest = (Guest) this.getItem(position);
 
         nameTxt.setText(guest.getName());
-        //phoneTxt.setText(guest.getPhoneNumber());
+        emailTxt.setText(guest.getEmail());
+
 
         //ONITECLICK
         convertView.setOnClickListener(new View.OnClickListener() {

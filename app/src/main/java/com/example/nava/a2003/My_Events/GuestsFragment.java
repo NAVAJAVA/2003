@@ -1,6 +1,7 @@
 package com.example.nava.a2003.My_Events;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.nava.a2003.Adapters.GuestAdapter;
+import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.R;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +53,8 @@ public class GuestsFragment extends Fragment {
     List<Guest> guests;
     //our database reference object
     DatabaseReference databaseEvents;
+    private String currentIdEvent="";
+
 
 
     private OnFragmentInteractionListener mListener;
@@ -80,6 +84,8 @@ public class GuestsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -92,7 +98,24 @@ public class GuestsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_guests, container, false);
         //getting the reference of guests node
-        databaseEvents = FirebaseDatabase.getInstance().getReference("My Events");
+        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
+        //find the ref to the current event (in order to add guests list in proper place)
+        databaseEvents.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event.getIdEvent().equals(currentIdEvent)) {
+                        databaseEvents = postSnapshot.getRef().child("guests");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         //getting views
         listViewGuests = (ListView) rootView.findViewById(R.id.listViewGuests);
         addButtonGuests = (Button) rootView.findViewById(R.id.addButtonGuests);
@@ -111,30 +134,23 @@ public class GuestsFragment extends Fragment {
     private void addGuest() {
         //getting the values to save
         String name = editTextGuest.getText().toString().trim();
-
         //checking if the value is provided
         if (!TextUtils.isEmpty(name)) {
-
             //getting a unique id using push().getKey() method
             //it will create a unique id and we will use it as the Primary Key for our guest
             String id = databaseEvents.push().getKey();
             //creating a guest Object
-
-            Log.d("", "here " + id);
-
             Guest guest = new Guest();
             guest.setName(name);
-            //currentEventPredded.addGUESTLIST(GUEST); AND ALSO IN DB.
-
             //Saving the guest
             databaseEvents.child(id).setValue(guest);
-
-
+            guests.add(guest);
+            //show on screen
+            GuestAdapter adpter = new GuestAdapter(getActivity(), guests);
+            listViewGuests.setAdapter(adpter);
             //displaying a success toast
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();
             editTextGuest.setText("");
-
-
         } else {
             //if the value is not given displaying a toast
             Toast.makeText(getActivity(), "Please enter name", Toast.LENGTH_LONG).show();
@@ -154,28 +170,32 @@ public class GuestsFragment extends Fragment {
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                //clearing the previous events list
+                //clearing the previous guests list
                 guests.clear();
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    //getting artist
-                    Guest guest = postSnapshot.getValue(Guest.class);
-                    //adding artist to the list
-                    guests.add(guest);
-                }
+                    //need to go to event that is equal to current and to dispaly the list of it
+                    //getting current event and add the guest to it
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event.getIdEvent().equals(currentIdEvent)){
+                       for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
+                        {
+                            Guest guest = currentGuest.getValue(Guest.class);
+                            guests.add(guest);
 
+                        }
+                    }
+                }
                 GuestAdapter adpter = new GuestAdapter(getActivity(), guests);
                 listViewGuests.setAdapter(adpter);
-
-
 
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });}
+        });
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

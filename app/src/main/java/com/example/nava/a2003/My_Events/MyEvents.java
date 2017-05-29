@@ -154,7 +154,6 @@ public class MyEvents extends Fragment {
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting event
-                    Log.d("FB children", postSnapshot.getKey());
                     Event event = postSnapshot.getValue(Event.class);
                     //adding event to the list
                     evnets.add(event);
