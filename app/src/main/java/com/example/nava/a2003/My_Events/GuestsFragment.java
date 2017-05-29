@@ -144,11 +144,6 @@ public class GuestsFragment extends Fragment {
             guest.setName(name);
             //Saving the guest
             databaseEvents.child(id).setValue(guest);
-            guests.add(guest);
-            //show on screen
-            GuestAdapter adpter = new GuestAdapter(getActivity(), guests);
-            listViewGuests.setAdapter(adpter);
-            //displaying a success toast
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();
             editTextGuest.setText("");
         } else {
@@ -177,12 +172,14 @@ public class GuestsFragment extends Fragment {
                     //need to go to event that is equal to current and to dispaly the list of it
                     //getting current event and add the guest to it
                     Event event = postSnapshot.getValue(Event.class);
-                    if (event.getIdEvent().equals(currentIdEvent)){
-                       for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)){
+                       //get all the guests
+                        for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
                         {
                             Guest guest = currentGuest.getValue(Guest.class);
-                            guests.add(guest);
-
+                            if(null!= guest) {
+                                guests.add(guest);
+                            }
                         }
                     }
                 }
