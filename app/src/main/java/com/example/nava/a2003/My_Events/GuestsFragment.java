@@ -1,5 +1,6 @@
 package com.example.nava.a2003.My_Events;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -47,7 +48,9 @@ public class GuestsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button addButtonGuests;
-    private EditText editTextGuest;
+    private EditText guestName;
+    private EditText guestEmail;
+    private EditText guestTableNumber;
     ListView listViewGuests;
     //a list to store all the guests from firebase database
     List<Guest> guests;
@@ -119,13 +122,14 @@ public class GuestsFragment extends Fragment {
         //getting views
         listViewGuests = (ListView) rootView.findViewById(R.id.listViewGuests);
         addButtonGuests = (Button) rootView.findViewById(R.id.addButtonGuests);
-        editTextGuest = (EditText) rootView.findViewById(R.id.editTextGuest);
         //list to store guests
         guests = new ArrayList<>();
+
         addButtonGuests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addGuest();
+                displayInputDialog();
+                //addGuest();
             }
         });
 
@@ -133,7 +137,11 @@ public class GuestsFragment extends Fragment {
     }
     private void addGuest() {
         //getting the values to save
-        String name = editTextGuest.getText().toString().trim();
+        String name = guestName.getText().toString().trim();
+        String email = guestEmail.getText().toString().trim();
+        String table = guestTableNumber.getText().toString().trim();
+
+
         //checking if the value is provided
         if (!TextUtils.isEmpty(name)) {
             //getting a unique id using push().getKey() method
@@ -142,10 +150,11 @@ public class GuestsFragment extends Fragment {
             //creating a guest Object
             Guest guest = new Guest();
             guest.setName(name);
+            guest.setEmail(email);
+          //  guest.setSeat();
             //Saving the guest
             databaseEvents.child(id).setValue(guest);
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();
-            editTextGuest.setText("");
         } else {
             //if the value is not given displaying a toast
             Toast.makeText(getActivity(), "Please enter name", Toast.LENGTH_LONG).show();
@@ -192,6 +201,42 @@ public class GuestsFragment extends Fragment {
 
             }
         });
+    }
+    private void displayInputDialog() {
+        final Dialog d = new Dialog(getContext());
+        d.setContentView(R.layout.guest_dialog);
+        guestName = (EditText) d.findViewById(R.id.guestName);
+        guestEmail = (EditText) d.findViewById(R.id.guestEmail);
+        guestTableNumber = (EditText) d.findViewById(R.id.guestTableNumber);
+        final Button saveBtn = (Button) d.findViewById(R.id.guestSaveBtn);
+
+        //SAVE
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //SIMPLE VALIDATION
+                String name = guestName.getText().toString().trim();
+                String email = guestEmail.getText().toString().trim();
+                String table = guestTableNumber.getText().toString().trim();
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)
+                        && !TextUtils.isEmpty(table)) {
+                    addGuest();
+                    guestName.setText("");
+                    guestEmail.setText("");
+                    guestTableNumber.setText("");
+                    d.hide();
+                    d.dismiss();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Must enter all details", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        d.show();
     }
     @Override
     public void onAttach(Context context) {
