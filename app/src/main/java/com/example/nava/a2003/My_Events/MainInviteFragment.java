@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -135,35 +136,54 @@ public class MainInviteFragment extends Fragment {
         txtTime = (EditText) view.findViewById(R.id.txtTime);
         txtDate = (EditText) view.findViewById(R.id.txtDate);
         btnCreate = (Button) view.findViewById(R.id.btnCreate);
-        /*
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                String name = txtEventName.getText().toString().trim();
-                String time =  txtTime.getText().toString().trim();
-                String date =  txtDate.getText().toString().trim();
-                String bank = txtBankDetails.getText().toString().trim();
-                Event event = new Event();
-                event.setName(name);
-                event.setDate(date);
-                event.setTime(time);
-                event.setBankAccountDetails(bank);
-                //Saving the event
-                Log.d("after",":)");
-                database.child(currentIdEvent).setValue(event);
+
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String name = txtEventName.getText().toString().trim();
+                        String time = txtTime.getText().toString().trim();
+                        String date = txtDate.getText().toString().trim();
+                        String bank = txtBankDetails.getText().toString().trim();
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            Event event = postSnapshot.getValue(Event.class);
+                            event.setName(name);
+                            event.setTime(time);
+                            event.setDate(date);
+                            event.setBankAccountDetails(bank);
+                            if (event.getIdEvent().equals(currentIdEvent)) {
+                                postSnapshot.getRef().setValue(event);
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
-*/
-        btnInvitation = (Button) view.findViewById(R.id.btnInvitation);
-        btnInvitation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
+
+
+
+            btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
+        btnInvitation.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View arg0){
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
-        });
+            });
         return view;
 
 
