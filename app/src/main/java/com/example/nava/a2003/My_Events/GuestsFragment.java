@@ -129,7 +129,6 @@ public class GuestsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 displayInputDialog();
-                //addGuest();
             }
         });
 
@@ -151,7 +150,7 @@ public class GuestsFragment extends Fragment {
             Guest guest = new Guest();
             guest.setName(name);
             guest.setEmail(email);
-          //  guest.setSeat();
+           guest.setSeat(table);
             //Saving the guest
             databaseEvents.child(id).setValue(guest);
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();

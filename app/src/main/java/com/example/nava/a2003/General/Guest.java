@@ -11,7 +11,7 @@ public class Guest implements Serializable {
 
     private String name;
     private String email;
-    private int seat;
+    private String seat;
     private boolean rsvp = false;
 
 
@@ -19,7 +19,7 @@ public class Guest implements Serializable {
 
     }
 
-    public Guest(String name, String email, int seat) {
+    public Guest(String name, String email, String seat) {
         this.name = name;
         this.email = email;
         this.seat = seat;
@@ -35,11 +35,11 @@ public class Guest implements Serializable {
     }
 
 
-    public int getSeat() {
+    public String getSeat() {
         return seat;
     }
 
-    public void setSeat(int seat) {
+    public void setSeat(String seat) {
         this.seat = seat;
     }
 
