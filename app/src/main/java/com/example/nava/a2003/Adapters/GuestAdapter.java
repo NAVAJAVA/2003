@@ -50,11 +50,14 @@ public class GuestAdapter extends BaseAdapter {
 
         TextView nameTxt= (TextView) convertView.findViewById(R.id.textViewName);
         TextView emailTxt= (TextView) convertView.findViewById(R.id.textViewEmail);
+        TextView seatTxt= (TextView) convertView.findViewById(R.id.textViewSeat);
+
 
         final Guest guest = (Guest) this.getItem(position);
 
         nameTxt.setText(guest.getName());
         emailTxt.setText(guest.getEmail());
+        seatTxt.setText(guest.getSeat());
 
 
         //ONITECLICK

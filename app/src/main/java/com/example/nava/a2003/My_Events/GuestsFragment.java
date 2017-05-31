@@ -150,7 +150,7 @@ public class GuestsFragment extends Fragment {
             Guest guest = new Guest();
             guest.setName(name);
             guest.setEmail(email);
-           guest.setSeat(table);
+            guest.setSeat(table);
             //Saving the guest
             databaseEvents.child(id).setValue(guest);
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();
@@ -218,7 +218,7 @@ public class GuestsFragment extends Fragment {
                 String email = guestEmail.getText().toString().trim();
                 String table = guestTableNumber.getText().toString().trim();
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)
-                        && !TextUtils.isEmpty(table)) {
+                        && TextUtils.isDigitsOnly(table)) {
                     addGuest();
                     guestName.setText("");
                     guestEmail.setText("");
@@ -228,9 +228,14 @@ public class GuestsFragment extends Fragment {
 
                 }
                 else
-                {
+                    if(!TextUtils.isDigitsOnly(table)){
+                        Toast.makeText(getContext(), "Must enter number in table number", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else
+                    {
                     Toast.makeText(getContext(), "Must enter all details", Toast.LENGTH_SHORT).show();
-                }
+                    }
 
             }
         });

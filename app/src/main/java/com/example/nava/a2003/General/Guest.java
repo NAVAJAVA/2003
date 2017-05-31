@@ -19,6 +19,7 @@ public class Guest implements Serializable {
 
     }
 
+
     public Guest(String name, String email, String seat) {
         this.name = name;
         this.email = email;

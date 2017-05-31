@@ -28,8 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
-        CalendarFragment.OnFragmentInteractionListener,
-        MainInviteFragment.OnFragmentInteractionListener, CreateEventFragment.OnFragmentInteractionListener{
+        GalleryFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener,
+        MainInviteFragment.OnFragmentInteractionListener, SeatsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
     DatabaseReference databaseEvents;
