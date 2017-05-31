@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+
+
 
 
 /**
@@ -217,8 +219,12 @@ public class GuestsFragment extends Fragment {
                 String name = guestName.getText().toString().trim();
                 String email = guestEmail.getText().toString().trim();
                 String table = guestTableNumber.getText().toString().trim();
+                Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+                boolean valid = pattern.matcher(email).matches();
+
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email)
-                        && TextUtils.isDigitsOnly(table)) {
+                        && TextUtils.isDigitsOnly(table) && valid) {
+
                     addGuest();
                     guestName.setText("");
                     guestEmail.setText("");
@@ -227,15 +233,18 @@ public class GuestsFragment extends Fragment {
                     d.dismiss();
 
                 }
-                else
-                    if(!TextUtils.isDigitsOnly(table)){
-                        Toast.makeText(getContext(), "Must enter number in table number", Toast.LENGTH_SHORT).show();
+                else {
+                    if(!valid) {
+                        Toast.makeText(getContext(), "Must enter valid email address", Toast.LENGTH_SHORT).show();
 
                     }
-                    else
-                    {
-                    Toast.makeText(getContext(), "Must enter all details", Toast.LENGTH_SHORT).show();
+                    if (!TextUtils.isDigitsOnly(table)) {
+                        Toast.makeText(getContext(), "Must enter number in table number", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(getContext(), "Must enter all details", Toast.LENGTH_SHORT).show();
                     }
+                }
 
             }
         });
