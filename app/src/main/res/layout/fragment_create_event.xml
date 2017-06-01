@@ -27,7 +27,12 @@
                 android:layout_height="121dp"
                 android:layout_weight="0.59"
                 android:adjustViewBounds="true"
-                android:scaleType="center"></ImageView>
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_menu_camera"
+                ></ImageView>
+
+
+
 
             <EditText
                 android:id="@+id/txtEventName"
