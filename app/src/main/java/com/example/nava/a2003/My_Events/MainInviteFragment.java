@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,6 +67,8 @@ public class MainInviteFragment extends Fragment {
     private String currentIdEvent="";
     private Button btnInvitation;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
+    private DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
+
     private static int RESULT_LOAD_IMAGE = 1;
     private  String picturePath;
     private OnFragmentInteractionListener mListener;
@@ -124,6 +127,7 @@ public class MainInviteFragment extends Fragment {
                             txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
+                            refToEvent = postSnapshot.getRef();
                         }
                     }
                 }
@@ -150,39 +154,21 @@ public class MainInviteFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                database.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String name = txtEventName.getText().toString().trim();
-                        String time = txtTime.getText().toString().trim();
-                        String date = txtDate.getText().toString().trim();
-                        String bank = txtBankDetails.getText().toString().trim();
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            Event event = postSnapshot.getValue(Event.class);
-                            //find the pressed event in db and change to new data
-                            if (event.getIdEvent().equals(currentIdEvent)) {
-                                postSnapshot.getRef().child("name").setValue(name);
-                                postSnapshot.getRef().child("time").setValue(time);
-                                postSnapshot.getRef().child("bankAccountDetails").setValue(bank);
-                                postSnapshot.getRef().child("date").setValue(date);
-                            }
-                            //set the path to the pres
-                          //  database=postSnapshot.getRef();
-                           // break;
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
+                String name = txtEventName.getText().toString().trim();
+                String time = txtTime.getText().toString().trim();
+                String date = txtDate.getText().toString().trim();
+                String bank = txtBankDetails.getText().toString().trim();
+                //checking if the value is provided
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(time)
+                        && !TextUtils.isEmpty(date)&& !TextUtils.isEmpty(bank) ) {
+                refToEvent.child("name").setValue(name);
+                refToEvent.child("time").setValue(time);
+                refToEvent.child("bankAccountDetails").setValue(bank);
+                refToEvent.child("date").setValue(date);
+                //get number of guests and set conuter?
+                // refToEvent.child("counterGuests").setValue(4);
+            }}
         });
-
-
 
             btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
         btnInvitation.setOnClickListener(new View.OnClickListener()
@@ -201,17 +187,7 @@ public class MainInviteFragment extends Fragment {
 
 
     }
-    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        //DatabaseReference ref = FirebaseDatabase.getInstance()
-               // .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
-               // .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                 //.child(mRestaurant.getPushId())
-                //.child("imageUrl");
-        database.setValue(imageEncoded);
-    }
+
 
 
     @Override
@@ -229,8 +205,8 @@ public class MainInviteFragment extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-//             DatabaseReference pathInvitation = database.getReference("path Invitation");
-  //           pathInvitation.setValue(picturePath);
+            //adding the path of the db
+            refToEvent.child("urlInvitaion").setValue(selectedImage.toString().trim());
             ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
             Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
                     .into(imageView);

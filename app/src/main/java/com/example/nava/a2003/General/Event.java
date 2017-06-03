@@ -20,20 +20,20 @@ public class Event implements Serializable {
      List<Guest> guestList;
      List<User> owners;
      int counterGuests;
-     String invitationPath;
+     String urlInvitaion;
      String idEvent;
 
     public Event()
     {
 
     }
-    public Event(String name, String date, String time,String desc,String bankAccountDetails, String invitationPath, List<Guest> guestList) {
+    public Event(String name, String date, String time,String desc,String bankAccountDetails, String urlInvitaion, List<Guest> guestList) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.guestList = null;
         this.bankAccountDetails = bankAccountDetails;
-        this.invitationPath = invitationPath;
+        this.urlInvitaion = "no path";
         this.description = desc;
         this.counterGuests = 0;
     }
@@ -100,8 +100,8 @@ public class Event implements Serializable {
         this.counterGuests = counterGuests;
     }
 
-    public String getInvitationPath() {
-        return invitationPath;
+    public String geturlInvitaion() {
+        return urlInvitaion;
     }
 
 
@@ -113,8 +113,8 @@ public class Event implements Serializable {
         this.description = description;
     }
 
-    public void setInvitationPath(String invitationPath) {
-        this.invitationPath = invitationPath;
+    public void seturlInvitaion(String urlInvitaion) {
+        this.urlInvitaion = urlInvitaion;
     }
 
     public List<User> getOwners() {
