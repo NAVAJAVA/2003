@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
-        GalleryFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener,
+        GalleryFragment.OnFragmentInteractionListener,
         MainInviteFragment.OnFragmentInteractionListener, SeatsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
@@ -122,8 +122,6 @@ public class InviteActivity extends  AppCompatActivity
             fragmentClass = GalleryFragment.class;
         }   else if (id == R.id.nav_seats) {
             fragmentClass = SeatsFragment.class;
-        }   else if (id == R.id.nav_notifications) {
-            fragmentClass = NotificationFragment.class;
         }
 
         try {

@@ -3,11 +3,17 @@ package com.example.nava.a2003.My_Events;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +32,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,6 +56,7 @@ public class MainInviteFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
+    private boolean first = true;
     private String mParam2;
     private EditText txtEventName;
     private EditText txtTime;
@@ -89,7 +99,6 @@ public class MainInviteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Intent i = getActivity().getIntent();
         currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
-         Log.d("CurrentIdEvnet22:",  currentIdEvent );
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -99,31 +108,32 @@ public class MainInviteFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //attaching value event listener
-
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("hey","he");
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    //getting event
-                    Event event = postSnapshot.getValue(Event.class);
-                    //getting the event which was pressed
-                    if(event.getIdEvent().equals(currentIdEvent))
-                    {
-                        txtEventName.setText(event.getName().toString().trim());
-                        txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
-                        txtTime.setText(event.getTime().toString().trim());
-                        txtDate.setText(event.getDate().toString().trim());
+        //first time the screen is shown pull data from db and show it on screen
+        if(first) {
+            first=false;
+            //showing the details of the event that was pressed
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        //getting event
+                        Event event = postSnapshot.getValue(Event.class);
+                        //getting the event which was pressed
+                        if (event.getIdEvent().equals(currentIdEvent)) {
+                            txtEventName.setText(event.getName().toString().trim());
+                            txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
+                            txtTime.setText(event.getTime().toString().trim());
+                            txtDate.setText(event.getDate().toString().trim());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override
@@ -140,7 +150,6 @@ public class MainInviteFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
                 database.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -150,13 +159,16 @@ public class MainInviteFragment extends Fragment {
                         String bank = txtBankDetails.getText().toString().trim();
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             Event event = postSnapshot.getValue(Event.class);
-                            event.setName(name);
-                            event.setTime(time);
-                            event.setDate(date);
-                            event.setBankAccountDetails(bank);
+                            //find the pressed event in db and change to new data
                             if (event.getIdEvent().equals(currentIdEvent)) {
-                                postSnapshot.getRef().setValue(event);
+                                postSnapshot.getRef().child("name").setValue(name);
+                                postSnapshot.getRef().child("time").setValue(time);
+                                postSnapshot.getRef().child("bankAccountDetails").setValue(bank);
+                                postSnapshot.getRef().child("date").setValue(date);
                             }
+                            //set the path to the pres
+                          //  database=postSnapshot.getRef();
+                           // break;
 
                         }
 
@@ -189,6 +201,19 @@ public class MainInviteFragment extends Fragment {
 
 
     }
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        //DatabaseReference ref = FirebaseDatabase.getInstance()
+               // .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
+               // .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                 //.child(mRestaurant.getPushId())
+                //.child("imageUrl");
+        database.setValue(imageEncoded);
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -204,23 +229,12 @@ public class MainInviteFragment extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-
-
-            //  DatabaseReference pathInvitation = database.getReference("path Invitation");
-            // pathInvitation.setValue(picturePath);
+//             DatabaseReference pathInvitation = database.getReference("path Invitation");
+  //           pathInvitation.setValue(picturePath);
             ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
-            //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-            File imgFile = new  File(picturePath);
-            if(imgFile.exists())
-            {
-                imageView.setImageURI(Uri.fromFile(imgFile));
-                Picasso.with(getContext()).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(imageView);
-
-            }
-        }
-
-    }
+            Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
+                    .into(imageView);
+    }}
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

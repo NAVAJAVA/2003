@@ -26,8 +26,9 @@
                 android:layout_width="249dp"
                 android:layout_height="121dp"
                 android:layout_weight="0.59"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_menu_camera"
                 ></ImageView>
 
