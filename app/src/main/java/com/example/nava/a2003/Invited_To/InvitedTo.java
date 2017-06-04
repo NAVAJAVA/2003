@@ -47,7 +47,7 @@ public class InvitedTo extends Fragment {
         //getting the reference of events node
         databaseEvents = FirebaseDatabase.getInstance().getReference("Events 2");
         //getting views
-        listViewInvitedTo = (ListView) rootView.findViewById(R.id.listViewEvents);
+        listViewInvitedTo = (ListView) rootView.findViewById(R.id.listView);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
         progressBar.setVisibility(View.VISIBLE);
 

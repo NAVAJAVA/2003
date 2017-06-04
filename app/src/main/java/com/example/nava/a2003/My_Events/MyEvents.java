@@ -57,7 +57,7 @@ public class MyEvents extends Fragment {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarShowEvents);
         progressBar.setVisibility(View.VISIBLE);
         //getting views
-        listViewEvents = (ListView) rootView.findViewById(R.id.listViewEvents);
+        listViewEvents = (ListView) rootView.findViewById(R.id.listView);
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
 
         //list to store artists

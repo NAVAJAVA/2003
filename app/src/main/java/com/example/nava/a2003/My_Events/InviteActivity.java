@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
-        GalleryFragment.OnFragmentInteractionListener,
+        GalleryFragment.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener,
         MainInviteFragment.OnFragmentInteractionListener, SeatsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
@@ -90,7 +90,8 @@ public class InviteActivity extends  AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.invited, menu);
+        getMenuInflater().inflate(R.menu.operation, menu);
+
         return true;
     }
 
@@ -102,7 +103,15 @@ public class InviteActivity extends  AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settingsInvited) {
+        if (id == R.id.action_settings) {
+            fragmentClass = CalendarFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
             return true;
         }
 

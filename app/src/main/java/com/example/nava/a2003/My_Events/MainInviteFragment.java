@@ -31,12 +31,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -129,7 +126,8 @@ public class MainInviteFragment extends Fragment {
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
                             if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
-                            Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                                Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
                                     .into(imgageView);}
                             refToEvent = postSnapshot.getRef();
                         }
@@ -216,6 +214,7 @@ public class MainInviteFragment extends Fragment {
             refToEvent.child("urlInvitaion").setValue(selectedImage.toString().trim());
 
             Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(imgageView);
     }}
     // TODO: Rename method, update argument and hook method into UI event

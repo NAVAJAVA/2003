@@ -20,12 +20,13 @@ import com.example.nava.a2003.Invited_To.FragmentOne;
 import com.example.nava.a2003.Invited_To.FragmentSix;
 import com.example.nava.a2003.Invited_To.FragmentThree;
 import com.example.nava.a2003.Invited_To.FragmentTwo;
+import com.example.nava.a2003.My_Events.CalendarFragment;
 import com.example.nava.a2003.R;
 
 public class OperationActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentOne.OnFragmentInteractionListener,
         FragmentTwo.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
-        FragmentFour.OnFragmentInteractionListener, FragmentFive.OnFragmentInteractionListener, FragmentSix.OnFragmentInteractionListener{
+        FragmentFour.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener, FragmentFive.OnFragmentInteractionListener, FragmentSix.OnFragmentInteractionListener{
     private Fragment fragment = null;
     private Class fragmentClass = null;
     @Override
@@ -87,6 +88,15 @@ public class OperationActivity extends  AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            fragmentClass = CalendarFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
             return true;
         }
 

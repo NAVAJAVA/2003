@@ -14,6 +14,7 @@ package com.example.nava.a2003.Adapters;
         import com.example.nava.a2003.My_Events.InviteActivity;
         import com.example.nava.a2003.Invited_To.OperationActivity;
         import com.example.nava.a2003.R;
+        import com.squareup.picasso.NetworkPolicy;
         import com.squareup.picasso.Picasso;
 
         import java.util.List;
@@ -67,6 +68,7 @@ public class CustomAdapter extends BaseAdapter{
 
         if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
             Picasso.with(c).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(img);
 
         }

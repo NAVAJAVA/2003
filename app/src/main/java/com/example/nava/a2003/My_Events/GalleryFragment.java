@@ -1,14 +1,26 @@
 package com.example.nava.a2003.My_Events;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,8 +36,13 @@ public class GalleryFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-  //  private static int RESULT_LOAD_IMAGE = 1;
-    //private Button buttonLoadImage;
+    ListView listViewImage;
+    //a list to store all the images from firebase database
+    List<String> imageList;
+    //our database reference object
+    DatabaseReference databaseEvents;
+
+    private static int RESULT_LOAD_IMAGE = 1;
 
 
     // TODO: Rename and change types of parameters
@@ -63,8 +80,8 @@ public class GalleryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        /*
-        buttonLoadImage = (Button) buttonLoadImage.findViewById(R.id.background_image_view);
+/*
+        buttonLoadImage = (Button) buttonLoadImage.findViewById(R.id.buttonLoadPicture);
         buttonLoadImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -83,7 +100,25 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
+        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
+        //getting views
+        listViewImage = (ListView) rootView.findViewById(R.id.listView);
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
+
+        //list to store images
+        imageList = new ArrayList<>();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
