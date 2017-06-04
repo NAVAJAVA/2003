@@ -65,10 +65,9 @@ public class CustomAdapter extends BaseAdapter{
         timeTxt.setText(event.getTime());
         //Picasso.with(c).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(img);
 
-        if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("no path")) {
+        if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
             Picasso.with(c).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
                     .into(img);
-            Log.d("hahah",event.geturlInvitaion());
 
         }
 

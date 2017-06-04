@@ -59,6 +59,7 @@ public class MainInviteFragment extends Fragment {
     private String mParam1;
     private boolean first = true;
     private String mParam2;
+    private ImageView imgageView;
     private EditText txtEventName;
     private EditText txtTime;
     private EditText txtDate;
@@ -127,6 +128,9 @@ public class MainInviteFragment extends Fragment {
                             txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
+                            if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
+                            Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                                    .into(imgageView);}
                             refToEvent = postSnapshot.getRef();
                         }
                     }
@@ -150,6 +154,7 @@ public class MainInviteFragment extends Fragment {
         txtTime = (EditText) view.findViewById(R.id.txtTime);
         txtDate = (EditText) view.findViewById(R.id.txtDate);
         btnCreate = (Button) view.findViewById(R.id.btnCreate);
+        imgageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,13 +210,13 @@ public class MainInviteFragment extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
+            //ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
 
             //adding the path of the db
             refToEvent.child("urlInvitaion").setValue(selectedImage.toString().trim());
 
             Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
-                    .into(imageView);
+                    .into(imgageView);
     }}
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
