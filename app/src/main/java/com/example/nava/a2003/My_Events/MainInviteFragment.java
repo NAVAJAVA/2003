@@ -205,9 +205,11 @@ public class MainInviteFragment extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
+            ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
+
             //adding the path of the db
             refToEvent.child("urlInvitaion").setValue(selectedImage.toString().trim());
-            ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
+
             Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
                     .into(imageView);
     }}

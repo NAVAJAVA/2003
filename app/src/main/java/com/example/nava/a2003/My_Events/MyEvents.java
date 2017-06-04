@@ -126,6 +126,7 @@ public class MyEvents extends Fragment {
             String id = databaseEvents.push().getKey();
             //creating an Event Object
             Event event = new Event();
+            event.seturlInvitaion("");
             event.setName(name);
             event.setDate(date);
             event.setTime(time);

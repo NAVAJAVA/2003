@@ -35,8 +35,6 @@ public class InviteActivity extends  AppCompatActivity
     DatabaseReference databaseEvents;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

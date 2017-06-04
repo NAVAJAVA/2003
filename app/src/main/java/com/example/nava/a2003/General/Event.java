@@ -33,7 +33,7 @@ public class Event implements Serializable {
         this.time = time;
         this.guestList = null;
         this.bankAccountDetails = bankAccountDetails;
-        this.urlInvitaion = "no path";
+        this.urlInvitaion = urlInvitaion;
         this.description = desc;
         this.counterGuests = 0;
     }

@@ -2,23 +2,24 @@ package com.example.nava.a2003.Adapters;
 
         import android.content.Context;
         import android.content.Intent;
+        import android.net.Uri;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
+        import android.widget.ImageView;
         import android.widget.TextView;
         import com.example.nava.a2003.General.Event;
         import com.example.nava.a2003.My_Events.InviteActivity;
         import com.example.nava.a2003.Invited_To.OperationActivity;
         import com.example.nava.a2003.R;
+        import com.squareup.picasso.Picasso;
+
         import java.util.List;
 
 
-/**
- * Created by Oclemy on 6/21/2016 for ProgrammingWizards Channel and http://www.camposha.com.
- * 1. where WE INFLATE OUR MODEL LAYOUT INTO VIEW ITEM
- * 2. THEN BIND DATA
- */
+
 public class CustomAdapter extends BaseAdapter{
     Context c;
     List<Event> eventsList;
@@ -55,12 +56,21 @@ public class CustomAdapter extends BaseAdapter{
         TextView nameTxt= (TextView) convertView.findViewById(R.id.nameView);
         TextView timeTxt= (TextView) convertView.findViewById(R.id.timeView);
         TextView dateTxt= (TextView) convertView.findViewById(R.id.dateView);
+        ImageView img =(ImageView) convertView.findViewById(R.id.img);
 
-        final Event  event = (Event) this.getItem(position);
 
+        final Event event = (Event) this.getItem(position);
         nameTxt.setText(event.getName());
         dateTxt.setText(event.getDate());
         timeTxt.setText(event.getTime());
+        //Picasso.with(c).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(img);
+
+        if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("no path")) {
+            Picasso.with(c).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                    .into(img);
+            Log.d("hahah",event.geturlInvitaion());
+
+        }
 
         //ONITECLICK
         convertView.setOnClickListener(new View.OnClickListener() {
