@@ -35,6 +35,7 @@
             android:layout_marginStart="27dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/message"
+            android:textSize="22dp"
             android:textColor="@color/colorfragmentone" />
 
     </LinearLayout>

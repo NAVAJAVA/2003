@@ -12,7 +12,16 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.FirebaseManager;
+import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -29,6 +38,10 @@ public class FragmentPayment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String currentIdEvent="";
+    private  Button btnBankDetails;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String CurentEmailID = auth.getCurrentUser().getEmail().trim();
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
     WebView wv;
 
     // TODO: Rename and change types of parameters
@@ -78,7 +91,7 @@ public class FragmentPayment extends Fragment {
 
         super.onCreate(savedInstanceState);
         setUserVisibleHint(true);
-        View rootView = inflater.inflate(R.layout.fragment_fragment_six, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_payment, container, false);
         Button button = (Button) rootView.findViewById(R.id.btnBit);
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -89,6 +102,32 @@ public class FragmentPayment extends Fragment {
                 Toast.makeText(getActivity(), "Please enter correct information", Toast.LENGTH_LONG).show();
             }
         });
+
+        btnBankDetails = (Button) rootView.findViewById(R.id.btnBankDetails);
+        //go over all events, find eventKey and CurentEmailID. set seat.
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent))
+                    {
+                        //get all the guests
+                        for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
+                        {
+                            Guest guest = currentGuest.getValue(Guest.class);
+                            if(null!= guest && guest.getEmail().trim().compareTo(CurentEmailID) == 0) {
+                                btnBankDetails.setText(event.getBankAccountDetails());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
         return rootView;
     }
 

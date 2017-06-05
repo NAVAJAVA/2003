@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class FragmentMySeat extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String currentIdEvent="";
     private Button btnTableNumber;
-    private String seat="";
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String CurentEmailID = auth.getCurrentUser().getEmail().trim();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
@@ -82,16 +80,11 @@ public class FragmentMySeat extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    public void getTableNumber()
-    {
-
-
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_fragment_five, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_seat, container, false);
         btnTableNumber = (Button) v.findViewById(R.id.btnTableNumber);
         //go over all events, find eventKey and CurentEmailID. set seat.
         EventsRef.addValueEventListener(new ValueEventListener() {
@@ -106,8 +99,7 @@ public class FragmentMySeat extends Fragment {
                         {
                             Guest guest = currentGuest.getValue(Guest.class);
                             if(null!= guest && guest.getEmail().trim().compareTo(CurentEmailID) == 0) {
-                                seat = guest.getSeat().trim();
-                                btnTableNumber.setText(seat);
+                                btnTableNumber.setText(guest.getSeat().trim());
                                 break;
                             }
                         }

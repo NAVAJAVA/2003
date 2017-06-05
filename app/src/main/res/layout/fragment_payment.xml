@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/textViewTableNumber"
+            android:id="@+id/textViewBitMessage"
             android:layout_width="271dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
@@ -36,7 +36,7 @@
             android:background="@drawable/bit" />
 
         <Button
-            android:id="@+id/btnTableNumber"
+            android:id="@+id/btnBankDetails"
             android:layout_width="210dp"
             android:layout_height="69dp"
             android:layout_marginLeft="27dp"

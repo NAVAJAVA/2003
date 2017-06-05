@@ -71,12 +71,12 @@
     <string name="attend">Will Attend</string>
     <string name="notattend">No</string>
 
-    <!-- fragment_fragment_five -->
+    <!-- fragment_my_seat -->
     <string name="message">we are working on it...</string>
     <string name="tableNum">"Table number :</string>
     <string name="howMany">How many?</string>
 
-    <!-- fragment_fragment_six -->
+    <!-- fragment_payment -->
     <string name="messagePayment">Transfer a gift with "bit" app</string>
     <string name="bankAccountDetails">Account number : 186112 branch : 062 \n bank : 031 - "Bank Leumi"</string>
 
