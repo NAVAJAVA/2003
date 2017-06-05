@@ -2,6 +2,7 @@ package com.example.nava.a2003.General;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -18,7 +19,7 @@ public class Event implements Serializable {
      String description;
      String bankAccountDetails;
      List<Guest> guestList;
-     List<User> owners;
+     ArrayList<String> emailOfOwners;
      int counterGuests;
      String urlInvitaion;
      String idEvent;
@@ -117,12 +118,12 @@ public class Event implements Serializable {
         this.urlInvitaion = urlInvitaion;
     }
 
-    public List<User> getOwners() {
-        return owners;
+    public ArrayList<String> getemailOfOwners() {
+        return emailOfOwners;
     }
 
-    public void setOwners(List<User> owners) {
-        this.owners = owners;
+    public void setemailOfOwners(ArrayList<String> emailOfOwners) {
+        this.emailOfOwners = emailOfOwners;
     }
 
     public String getIdEvent() {

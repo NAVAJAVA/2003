@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.nava.a2003.Adapters.CustomAdapter;
 import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,8 @@ import java.util.List;
 
 public class MyEvents extends Fragment {
     ListView listViewEvents;
+    private FirebaseAuth auth;
+    private String CurentEmailID ;
     EditText editTextName;
     EditText dateTxt;
     EditText timeTxt;
@@ -59,7 +62,8 @@ public class MyEvents extends Fragment {
         //getting views
         listViewEvents = (ListView) rootView.findViewById(R.id.listView);
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
-
+        auth = FirebaseAuth.getInstance();
+        CurentEmailID = auth.getCurrentUser().getEmail().trim();
         //list to store artists
         evnets = new ArrayList<>();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +72,6 @@ public class MyEvents extends Fragment {
                 displayInputDialog();
             }
         });
-
         return rootView;
     }
 
@@ -132,6 +135,9 @@ public class MyEvents extends Fragment {
             event.setTime(time);
             event.setBankAccountDetails(bank);
             event.setIdEvent(id);
+            ArrayList<String> L = new ArrayList<String>();
+            L.add(CurentEmailID);
+            event.setemailOfOwners(L);
             //Saving the event
             databaseEvents.child(id).setValue(event);
             //displaying a success toast
@@ -156,15 +162,29 @@ public class MyEvents extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting event
                     Event event = postSnapshot.getValue(Event.class);
-                    //adding event to the list
-                    evnets.add(event);
-                    //add to id of each event the path by postSnapshot.getRef()
+
+                    if(checkOwner(event.getemailOfOwners())) {
+                        //adding event to the list
+                        evnets.add(event);
+                    }
                 }
 
                 CustomAdapter adpter = new CustomAdapter(getActivity(), evnets,idOfFragment);
                 listViewEvents.setAdapter(adpter);
                 progressBar.setVisibility(View.GONE);
 
+
+            }
+
+            public boolean checkOwner(ArrayList<String> list)
+            {
+                for (String s:list) {
+                    if(0 == s.compareTo(CurentEmailID))
+                    {
+                        return true;
+                    }
+                }
+                return false;
 
             }
 
