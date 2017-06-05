@@ -6,10 +6,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:windowSoftInputMode="adjustResize"
-    tools:context=".Invited_To.FragmentFive"
+    tools:context=".Invited_To.FragmentMySeat"
     android:weightSum="1">
-
-
 
 
     <LinearLayout

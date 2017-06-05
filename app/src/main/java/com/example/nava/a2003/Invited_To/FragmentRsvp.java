@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.nava.a2003.R;
 
@@ -14,12 +16,12 @@ import com.example.nava.a2003.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentFive.OnFragmentInteractionListener} interface
+ * {@link FragmentRsvp.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentFive#newInstance} factory method to
+ * Use the {@link FragmentRsvp#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentFive extends Fragment {
+public class FragmentRsvp extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,10 +30,12 @@ public class FragmentFive extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private EditText editText;
+    private Button attend;
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentFive() {
+    public FragmentRsvp() {
         // Required empty public constructor
     }
 
@@ -41,11 +45,11 @@ public class FragmentFive extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentOne.
+     * @return A new instance of fragment FragmentMainInvited.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentFive newInstance(String param1, String param2) {
-        FragmentFive fragment = new FragmentFive();
+    public static FragmentRsvp newInstance(String param1, String param2) {
+        FragmentRsvp fragment = new FragmentRsvp();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +63,7 @@ public class FragmentFive extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -66,7 +71,7 @@ public class FragmentFive extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_five, container, false);
+        return inflater.inflate(R.layout.fragment_fragment_four, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

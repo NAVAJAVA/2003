@@ -1,5 +1,6 @@
 package com.example.nava.a2003.Invited_To;
 
+import android.content.Intent;
 import android.net.Uri;
 
 import android.os.Bundle;
@@ -14,19 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.nava.a2003.Invited_To.FragmentFive;
-import com.example.nava.a2003.Invited_To.FragmentFour;
-import com.example.nava.a2003.Invited_To.FragmentOne;
-import com.example.nava.a2003.Invited_To.FragmentSix;
-import com.example.nava.a2003.Invited_To.FragmentThree;
-import com.example.nava.a2003.Invited_To.FragmentTwo;
 import com.example.nava.a2003.My_Events.CalendarFragment;
 import com.example.nava.a2003.R;
 
 public class OperationActivity extends  AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentOne.OnFragmentInteractionListener,
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentMainInvited.OnFragmentInteractionListener,
         FragmentTwo.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
-        FragmentFour.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener, FragmentFive.OnFragmentInteractionListener, FragmentSix.OnFragmentInteractionListener{
+        FragmentRsvp.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener, FragmentMySeat.OnFragmentInteractionListener, FragmentPayment.OnFragmentInteractionListener{
     private Fragment fragment = null;
     private Class fragmentClass = null;
     @Override
@@ -35,11 +30,14 @@ public class OperationActivity extends  AppCompatActivity
         setContentView(R.layout.activity_operation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarOperationActivity);
         setSupportActionBar(toolbar);
-
+        //get the id of the event which has been preesed
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String CurrentIdEvnet = bundle.getString("CurrentIdEvnet");
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = FragmentOne.class;
+            fragmentClass = FragmentMainInvited.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -115,12 +113,12 @@ public class OperationActivity extends  AppCompatActivity
             fragmentClass = FragmentThree.class;
 
         } else if (id == R.id.nav_rsvp) {
-            fragmentClass = FragmentFour.class;
+            fragmentClass = FragmentRsvp.class;
         }
         else if (id == R.id.nav_mySeat) {
-            fragmentClass = FragmentFive.class;
+            fragmentClass = FragmentMySeat.class;
         } else if (id == R.id.nav_payment) {
-            fragmentClass = FragmentSix.class;
+            fragmentClass = FragmentPayment.class;
         }
         /* if (id == R.id.nav_calendar) {
             fragmentClass = FragmentTwo.class;

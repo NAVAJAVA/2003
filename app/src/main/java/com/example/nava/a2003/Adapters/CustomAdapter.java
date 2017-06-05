@@ -73,20 +73,17 @@ public class CustomAdapter extends BaseAdapter{
 
         }
 
-        //ONITECLICK
+        //OnEventClick
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(0 == idOfFragment) {
-                    c.startActivity(new Intent(c,OperationActivity.class));
-                    //which item is pressed? then send its id in db.
-                    //send id of event to the intent
-
+                   // c.startActivity(new Intent(c,OperationActivity.class));
+                    c.startActivity(new Intent(c,OperationActivity.class).putExtra("CurrentIdEvnet",event.getIdEvent()));
                 }
                 else {
                     //when an item is  pressed so get its id from db and send it in the intent
-                    c.startActivity(new Intent(c,InviteActivity.class).putExtra("CurrentIdEvnet",event.getIdEvent()
-                    ));
+                    c.startActivity(new Intent(c,InviteActivity.class).putExtra("CurrentIdEvnet",event.getIdEvent()));
 
                 }
 

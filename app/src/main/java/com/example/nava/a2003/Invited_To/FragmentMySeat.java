@@ -5,30 +5,43 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.FirebaseManager;
+import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.R;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentSix.OnFragmentInteractionListener} interface
+ * {@link FragmentMySeat.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentSix#newInstance} factory method to
+ * Use the {@link FragmentMySeat#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSix extends Fragment {
+public class FragmentMySeat extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    WebView wv;
+    private String currentIdEvent="";
+    private Button btnTableNumber;
+    private String seat="";
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String CurentEmailID = auth.getCurrentUser().getEmail().trim();
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
+    FirebaseManager manager = new FirebaseManager();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -36,7 +49,7 @@ public class FragmentSix extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentSix() {
+    public FragmentMySeat() {
         // Required empty public constructor
     }
 
@@ -46,11 +59,11 @@ public class FragmentSix extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentOne.
+     * @return A new instance of fragment FragmentMainInvited.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSix newInstance(String param1, String param2) {
-        FragmentSix fragment = new FragmentSix();
+    public static FragmentMySeat newInstance(String param1, String param2) {
+        FragmentMySeat fragment = new FragmentMySeat();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,31 +74,51 @@ public class FragmentSix extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting the current event which has been pressed
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    public void getTableNumber()
+    {
 
+
+    }
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setUserVisibleHint(true);
-        View rootView = inflater.inflate(R.layout.fragment_fragment_six, container, false);
-        Button button = (Button) rootView.findViewById(R.id.btnBit);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                // Perform action on click
-                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
-                myWebLink.setData(Uri.parse("http://www.bitpay.co.il"));
-                startActivity(myWebLink);
-                Toast.makeText(getActivity(), "Please enter correct information", Toast.LENGTH_LONG).show();
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_fragment_five, container, false);
+        btnTableNumber = (Button) v.findViewById(R.id.btnTableNumber);
+        //go over all events, find eventKey and CurentEmailID. set seat.
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent))
+                    {
+                        //get all the guests
+                        for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
+                        {
+                            Guest guest = currentGuest.getValue(Guest.class);
+                            if(null!= guest && guest.getEmail().trim().compareTo(CurentEmailID) == 0) {
+                                seat = guest.getSeat().trim();
+                                btnTableNumber.setText(seat);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
-        return rootView;
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
