@@ -35,7 +35,7 @@ import java.util.List;
 public class MyEvents extends Fragment {
     ListView listViewEvents;
     private FirebaseAuth auth;
-    private String CurentEmailID ;
+    private String CurrentAuthkey ;
     EditText editTextName;
     EditText dateTxt;
     EditText timeTxt;
@@ -63,7 +63,7 @@ public class MyEvents extends Fragment {
         listViewEvents = (ListView) rootView.findViewById(R.id.listView);
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
         auth = FirebaseAuth.getInstance();
-        CurentEmailID = auth.getCurrentUser().getEmail().trim();
+        CurrentAuthkey = auth.getCurrentUser().getUid().trim();
         //list to store artists
         evnets = new ArrayList<>();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -136,8 +136,8 @@ public class MyEvents extends Fragment {
             event.setBankAccountDetails(bank);
             event.setIdEvent(id);
             ArrayList<String> L = new ArrayList<String>();
-            L.add(CurentEmailID);
-            event.setemailOfOwners(L);
+            L.add(CurrentAuthkey);
+            event.setOwnersKeys(L);
             //Saving the event
             databaseEvents.child(id).setValue(event);
             //displaying a success toast
@@ -162,8 +162,7 @@ public class MyEvents extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting event
                     Event event = postSnapshot.getValue(Event.class);
-
-                    if(checkOwner(event.getemailOfOwners())) {
+                    if(checkOwner(event.getOwnersKeys())) {
                         //adding event to the list
                         evnets.add(event);
                     }
@@ -179,7 +178,7 @@ public class MyEvents extends Fragment {
             public boolean checkOwner(ArrayList<String> list)
             {
                 for (String s:list) {
-                    if(0 == s.compareTo(CurentEmailID))
+                    if(0 == s.compareTo(CurrentAuthkey))
                     {
                         return true;
                     }

@@ -19,7 +19,7 @@ public class Event implements Serializable {
      String description;
      String bankAccountDetails;
      List<Guest> guestList;
-     ArrayList<String> emailOfOwners;
+     ArrayList<String> ownersKeys;
      int counterGuests;
      String urlInvitaion;
      String idEvent;
@@ -118,12 +118,12 @@ public class Event implements Serializable {
         this.urlInvitaion = urlInvitaion;
     }
 
-    public ArrayList<String> getemailOfOwners() {
-        return emailOfOwners;
+    public ArrayList<String> getOwnersKeys() {
+        return ownersKeys;
     }
 
-    public void setemailOfOwners(ArrayList<String> emailOfOwners) {
-        this.emailOfOwners = emailOfOwners;
+    public void setOwnersKeys(ArrayList<String> OwnersKeys) {
+        this.ownersKeys = OwnersKeys;
     }
 
     public String getIdEvent() {
