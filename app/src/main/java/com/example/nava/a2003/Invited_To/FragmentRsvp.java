@@ -1,16 +1,27 @@
 package com.example.nava.a2003.Invited_To;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -26,12 +37,17 @@ public class FragmentRsvp extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
+    private String currentIdEvent= "";
+    private boolean attend;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String CurentEmailID = auth.getCurrentUser().getEmail().trim();
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference currentGuestRef = FirebaseDatabase.getInstance().getReference("Events");
     private String mParam1;
     private String mParam2;
     private EditText editText;
-    private Button attend;
+    private Button btnAttend;
+    private Button  btnNotAttending;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,18 +76,65 @@ public class FragmentRsvp extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting the current event which has been pressed
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //go over all events, find eventKey and CurentEmailID. set seat.
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)) {
+                        //get all the guests
+                        for (DataSnapshot currentGuest : postSnapshot.child("guests").getChildren()) {
+                            Guest guest = currentGuest.getValue(Guest.class);
+                            if (null != guest && guest.getEmail().trim().compareTo(CurentEmailID) == 0) {
+                                //check which button is pressed and set guest in db.
+                                Log.d("btnno", "pressed");
+                                currentGuestRef = currentGuest.getRef();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_four, container, false);
+        View v =  inflater.inflate(R.layout.fragment_rsvp, container, false);
+        btnNotAttending = (Button) v.findViewById(R.id.btnNotAttending);
+        btnAttend = (Button) v.findViewById(R.id.btnAttend);
+        btnAttend.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+               attend = true;
+                currentGuestRef.child("rsvp").setValue("yes");
+            }
+        });
+        btnNotAttending.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                attend = false;
+                currentGuestRef.child("rsvp").setValue("no");
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

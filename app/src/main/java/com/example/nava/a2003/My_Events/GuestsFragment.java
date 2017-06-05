@@ -152,8 +152,8 @@ public class GuestsFragment extends Fragment {
             Guest guest = new Guest();
             guest.setName(name);
             guest.setEmail(email);
-            guest.setSeat(table);
-            //Saving the guest
+            guest.setRsvp("didnt rsvp yet");
+          //Saving the guest
             databaseEvents.child(id).setValue(guest);
             Toast.makeText(getActivity(), "Guest added", Toast.LENGTH_LONG).show();
         } else {

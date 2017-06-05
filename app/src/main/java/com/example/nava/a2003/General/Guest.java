@@ -12,7 +12,7 @@ public class Guest implements Serializable {
     private String name;
     private String email;
     private String seat;
-    private boolean rsvp = false;
+    private String rsvp;
 
 
     public Guest() {
@@ -50,5 +50,13 @@ public class Guest implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRsvp() {
+        return rsvp;
+    }
+
+    public void setRsvp(String rsvp) {
+        this.rsvp = rsvp;
     }
 }
