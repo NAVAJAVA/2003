@@ -33,8 +33,6 @@ public class SignupActivity  extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference myRef;
 
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
