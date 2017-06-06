@@ -58,7 +58,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
-    <!-- fragment_fragment_one -->
+    <!-- fragment_main_invite -->
     <string name="hello_blank_fragment">Press on an event and choose an action from navigation bar</string>
 
     <!-- fragment_fragment_two -->

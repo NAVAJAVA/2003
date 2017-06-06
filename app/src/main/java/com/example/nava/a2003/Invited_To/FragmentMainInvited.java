@@ -1,14 +1,27 @@
 package com.example.nava.a2003.Invited_To;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -24,6 +37,16 @@ public class FragmentMainInvited extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String currentIdEvent="";
+    private ImageView imageViewInvitedTO;
+    private boolean flag = false;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    String CurentEmailID = auth.getCurrentUser().getEmail().trim();
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference  currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
+
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -34,6 +57,7 @@ public class FragmentMainInvited extends Fragment {
     public FragmentMainInvited() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -56,17 +80,45 @@ public class FragmentMainInvited extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting the current event which has been pressed
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_one, container, false);
+        View v =  inflater.inflate(R.layout.fragment_main_invite, container, false);
+        imageViewInvitedTO = (ImageView) v.findViewById(R.id.imgViewInvitedTo);
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent))
+                    {
+                       // if(event.geturlInvitaion()!= null && !event.geturlInvitaion().isEmpty()) {
+                           // Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                            //        .networkPolicy(NetworkPolicy.OFFLINE)
+                             //       .into(imageViewInvitedTO);
+                        Picasso.with(getContext()).load(event.geturlInvitaion()).into(imageViewInvitedTO);
+                           // imageViewInvitedTO.setImageURI(Uri.parse(event.geturlInvitaion()));
+                            break;
+                       // }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        return  v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

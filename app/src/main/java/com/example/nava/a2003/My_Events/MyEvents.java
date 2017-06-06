@@ -184,7 +184,6 @@ public class MyEvents extends Fragment {
                     }
                 }
                 return false;
-
             }
 
             @Override

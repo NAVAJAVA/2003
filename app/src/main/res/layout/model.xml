@@ -31,6 +31,8 @@
             android:layout_width="126dp"
             android:layout_height="wrap_content"
             android:text="Date"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="40dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="italic" />
 
@@ -39,6 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Time"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="60dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="italic" />
 

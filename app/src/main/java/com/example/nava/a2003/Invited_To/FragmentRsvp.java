@@ -43,13 +43,13 @@ public class FragmentRsvp extends Fragment {
     String CurentEmailID = auth.getCurrentUser().getEmail().trim();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference currentGuestRef = FirebaseDatabase.getInstance().getReference("Events");
+    private OnFragmentInteractionListener mListener;
     private String mParam1;
     private String mParam2;
     private EditText editText;
     private Button btnAttend;
     private Button  btnNotAttending;
 
-    private OnFragmentInteractionListener mListener;
 
     public FragmentRsvp() {
         // Required empty public constructor

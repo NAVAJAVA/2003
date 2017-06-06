@@ -54,7 +54,6 @@ public class MainInviteFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private boolean first = true;
     private String mParam2;
     private ImageView imgageView;
     private EditText txtEventName;
@@ -64,8 +63,8 @@ public class MainInviteFragment extends Fragment {
     private Button btnCreate;
     private String currentIdEvent="";
     private Button btnInvitation;
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
-    private DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
 
     private static int RESULT_LOAD_IMAGE = 1;
     private  String picturePath;
@@ -92,14 +91,12 @@ public class MainInviteFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public void passData(String currentIdEvent) {
-        this.currentIdEvent = currentIdEvent;
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getActivity().getIntent();
         currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
+        Log.d("curre", currentIdEvent);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -110,8 +107,8 @@ public class MainInviteFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //first time the screen is shown pull data from db and show it on screen
-        if(first) {
-            first=false;
+        //if(first) {
+          //  first=false;
             //showing the details of the event that was pressed
             database.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -139,7 +136,7 @@ public class MainInviteFragment extends Fragment {
 
                 }
             });
-        }
+        //}
     }
 
     @Override
