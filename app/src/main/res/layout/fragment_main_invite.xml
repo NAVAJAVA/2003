@@ -28,7 +28,7 @@
                 android:layout_marginBottom="50dp"
                 android:layout_marginTop="0dp"
                 android:layout_weight="0.94"
-                android:src="@drawable/ic_menu_camera"></ImageView>
+                ></ImageView>
 
 
         </LinearLayout>

@@ -107,8 +107,8 @@ public class FragmentMainInvited extends Fragment {
                            // Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
                             //        .networkPolicy(NetworkPolicy.OFFLINE)
                              //       .into(imageViewInvitedTO);
+
                         Picasso.with(getContext()).load(event.geturlInvitaion()).into(imageViewInvitedTO);
-                           // imageViewInvitedTO.setImageURI(Uri.parse(event.geturlInvitaion()));
                             break;
                        // }
                     }

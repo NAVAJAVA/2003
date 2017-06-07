@@ -152,6 +152,7 @@ public class GuestsFragment extends Fragment {
             Guest guest = new Guest();
             guest.setName(name);
             guest.setEmail(email);
+            guest.setSeat(table);
             guest.setRsvp("didnt rsvp yet");
           //Saving the guest
             databaseEvents.child(id).setValue(guest);

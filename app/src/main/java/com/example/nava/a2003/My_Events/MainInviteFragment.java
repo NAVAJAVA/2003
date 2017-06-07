@@ -123,9 +123,14 @@ public class MainInviteFragment extends Fragment {
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
                             if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
-                                Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                                Picasso.with(getContext()).load(event.geturlInvitaion().trim()).noPlaceholder().centerCrop().fit()
                                     .networkPolicy(NetworkPolicy.OFFLINE)
-                                    .into(imgageView);}
+                                    .into(imgageView);
+
+                              //  Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+                                //        .networkPolicy(NetworkPolicy.OFFLINE)
+                                  //      .into(imgageView);
+                            }
                             refToEvent = postSnapshot.getRef();
                         }
                     }

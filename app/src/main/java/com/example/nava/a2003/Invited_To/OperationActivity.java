@@ -24,6 +24,7 @@ public class OperationActivity extends  AppCompatActivity
         FragmentRsvp.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener, FragmentMySeat.OnFragmentInteractionListener, FragmentPayment.OnFragmentInteractionListener{
     private Fragment fragment = null;
     private Class fragmentClass = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +86,7 @@ public class OperationActivity extends  AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_calendar) {
             fragmentClass = CalendarFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -111,7 +112,6 @@ public class OperationActivity extends  AppCompatActivity
 
         if (id == R.id.nav_gallery) {
             fragmentClass = FragmentThree.class;
-
         } else if (id == R.id.nav_rsvp) {
             fragmentClass = FragmentRsvp.class;
         }

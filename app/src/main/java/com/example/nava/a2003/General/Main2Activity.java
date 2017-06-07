@@ -16,6 +16,8 @@ import com.example.nava.a2003.Invited_To.InvitedTo;
 import com.example.nava.a2003.My_Events.MyEvents;
 import com.example.nava.a2003.R;
 
+import static com.example.nava.a2003.General.FirebaseManager.auth;
+
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -75,6 +77,7 @@ public class Main2Activity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_main2) {
+            auth.signOut();
             return true;
         }
 
