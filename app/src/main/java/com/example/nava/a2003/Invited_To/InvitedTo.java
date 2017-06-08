@@ -29,7 +29,7 @@ public class InvitedTo extends Fragment {
     ProgressBar progressBar;
     int idOfFragment = 0;
     FirebaseManager manager;
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
 

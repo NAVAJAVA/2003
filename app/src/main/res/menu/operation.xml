@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_calendar"
+        android:id="@+id/action_Calendar"
         android:orderInCategory="100"
         android:title="Calendar"
         app:showAsAction="never" />

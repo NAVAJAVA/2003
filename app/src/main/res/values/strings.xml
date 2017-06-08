@@ -90,7 +90,7 @@
 
     <!-- fragment_create_event -->
     <string name="eventName">Event Name</string>
-    <string name="create">Crate Event</string>
+    <string name="create">Save changes</string>
     <string name="time">Event Time</string>
     <string name="invitation">Add invitation</string>
     <string name="date">Event Date</string>

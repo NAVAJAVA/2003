@@ -67,7 +67,7 @@ public class CustomAdapter extends BaseAdapter{
         //Picasso.with(c).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(img);
 
         if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
-            Picasso.with(c).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
+            Picasso.with(c).load(event.geturlInvitaion()).noPlaceholder().centerCrop().fit()
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(img);
 

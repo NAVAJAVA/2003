@@ -4,68 +4,94 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GalleryFragment.OnFragmentInteractionListener} interface
+ * {@link FragmentUploadImage.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GalleryFragment#newInstance} factory method to
+ * Use the {@link FragmentUploadImage#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class FragmentUploadImage extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    ListView listViewImage;
-    //a list to store all the images from firebase database
-    List<String> imageList;
-    //our database reference object
-    DatabaseReference databaseEvents;
-
-    private static int RESULT_LOAD_IMAGE = 1;
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String currentIdEvent;
+    private Button buttonLoadPicture;
+    private Button buttonBrowsePicture;
+    private ImageView imgViewGalleryUPload;
+    private EditText pictureName;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
 
     private OnFragmentInteractionListener mListener;
 
-    public GalleryFragment() {
+    public FragmentUploadImage() {
         // Required empty public constructor
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //go over all events, find eventKey and set current currentEventRef to it.
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)) {
+                         currentEventRef = postSnapshot.getRef();
+                        Log.d("curennt",event.getIdEvent());
+                        break;
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GalleryFragment.
+     * @return A new instance of fragment FragmentUploadImage.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(String param1, String param2) {
-        GalleryFragment fragment = new GalleryFragment();
+    public static FragmentUploadImage newInstance(String param1, String param2) {
+        FragmentUploadImage fragment = new FragmentUploadImage();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,49 +102,37 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting the current event which has been pressed
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-/*
-        buttonLoadImage = (Button) buttonLoadImage.findViewById(R.id.buttonLoadPicture);
-        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_upload_images, container, false);
+        buttonBrowsePicture = (Button) v.findViewById(R.id.buttonBrowsePicture);
+        buttonLoadPicture = (Button) v.findViewById(R.id.buttonLoadPicture);
+        //todo - when the buttons are preesded - by viedo
+        //
+
+        String path = "fire/" + UUID.randomUUID() +".png";
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
+        StorageReference ref = storage.getReference(path);
+        //StorageMetadata metadata = new StorageMetadata.Builder()
+        UploadTask uploadTask = ref.putFile(Uri.EMPTY);
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue("Hello, World!");
+
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
-        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
-        //getting views
-        listViewImage = (ListView) rootView.findViewById(R.id.listView);
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
+        return v;
 
-        //list to store images
-        imageList = new ArrayList<>();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -150,7 +164,7 @@ public class GalleryFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

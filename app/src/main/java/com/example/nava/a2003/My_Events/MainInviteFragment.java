@@ -170,7 +170,7 @@ public class MainInviteFragment extends Fragment {
                 refToEvent.child("time").setValue(time);
                 refToEvent.child("bankAccountDetails").setValue(bank);
                 refToEvent.child("date").setValue(date);
-                //get number of guests and set conuter?
+                //go over guests which Rsvp and set counter and set conuter?
                 // refToEvent.child("counterGuests").setValue(4);
             }}
         });

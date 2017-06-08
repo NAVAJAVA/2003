@@ -30,8 +30,6 @@
                 ></ImageView>
 
 
-
-
             <EditText
                 android:id="@+id/txtEventName"
                 android:layout_width="244dp"

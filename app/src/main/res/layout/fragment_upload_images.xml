@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorfragmentone">
+
+
+
+    <ImageView
+        android:id="@+id/imgViewGalleryUPload"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.34"></ImageView>
+
+    <EditText
+        android:id="@+id/pictureName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a name to the picture"
+        android:visibility="invisible" />
+    <Button
+        android:id="@+id/buttonBrowsePicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorfragmentone"
+        android:textColor="@color/colorPrimary"
+        android:text="Browse Picture"></Button>
+    <Button
+        android:id="@+id/buttonLoadPicture"
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"
+        android:text="Upload Picture"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorfragmentone"
+        android:layout_gravity="center"></Button>
+
+</LinearLayout>

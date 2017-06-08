@@ -17,18 +17,22 @@ import android.view.MenuItem;
 
 import com.example.nava.a2003.My_Events.CalendarFragment;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OperationActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentMainInvited.OnFragmentInteractionListener,
-        FragmentTwo.OnFragmentInteractionListener, FragmentThree.OnFragmentInteractionListener,
+        FragmentTwo.OnFragmentInteractionListener, GalleryFragment.OnFragmentInteractionListener,
         FragmentRsvp.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener, FragmentMySeat.OnFragmentInteractionListener, FragmentPayment.OnFragmentInteractionListener{
     private Fragment fragment = null;
     private Class fragmentClass = null;
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operation);
+        auth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarOperationActivity);
         setSupportActionBar(toolbar);
         //get the id of the event which has been preesed
@@ -86,7 +90,25 @@ public class OperationActivity extends  AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_calendar) {
+        if (id == R.id.action_Calendar) {
+            /*
+        }
+            auth.signOut();
+// this listener will be called when there is change in firebase user session
+            FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user == null) {
+                        // user auth state is changed - user is null
+                        // launch login activity
+                        Log.d("fini","fin");
+                        startActivity(new Intent(OperationActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }
+                };
+*/
             fragmentClass = CalendarFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -111,7 +133,7 @@ public class OperationActivity extends  AppCompatActivity
         Class fragmentClass = null;
 
         if (id == R.id.nav_gallery) {
-            fragmentClass = FragmentThree.class;
+            fragmentClass = GalleryFragment.class;
         } else if (id == R.id.nav_rsvp) {
             fragmentClass = FragmentRsvp.class;
         }

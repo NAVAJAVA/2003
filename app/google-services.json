@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "381946231038-04gig0rtkmc6vkkt1im74si9qulc98u5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nava.a2003",
+            "certificate_hash": "069f88b26ac628ff5e6222242e0730b3d8bd65c7"
+          }
+        },
+        {
           "client_id": "381946231038-af2c2oapnfcud1k4fjlecc3lmq6ojnv7.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381946231038-af2c2oapnfcud1k4fjlecc3lmq6ojnv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

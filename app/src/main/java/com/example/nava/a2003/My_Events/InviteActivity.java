@@ -12,23 +12,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.nava.a2003.Adapters.CustomAdapter;
-import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.Invited_To.GalleryFragment;
 import com.example.nava.a2003.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
-        GalleryFragment.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener,
+        FragmentUploadImage.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener,
         MainInviteFragment.OnFragmentInteractionListener, SeatsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
@@ -103,7 +97,9 @@ public class InviteActivity extends  AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_calendar) {
+        if (id == R.id.action_Calendar) {
+           // FirebaseAuth.getInstance().signOut();
+
             fragmentClass = CalendarFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -112,6 +108,7 @@ public class InviteActivity extends  AppCompatActivity
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
+
             return true;
         }
 
@@ -126,7 +123,7 @@ public class InviteActivity extends  AppCompatActivity
         if (id == R.id.nav_guests) {
             fragmentClass = GuestsFragment.class;
         }   else if (id == R.id.nav_gallery) {
-            fragmentClass = GalleryFragment.class;
+            fragmentClass = FragmentUploadImage.class;
         }   else if (id == R.id.nav_seats) {
             fragmentClass = SeatsFragment.class;
         }

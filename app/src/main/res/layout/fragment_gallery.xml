@@ -1,21 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorfragmentone"
-    tools:context="com.example.nava.a2003.My_Events.GalleryFragment">
+    android:orientation="vertical"
+    android:background="@color/colorfragmentone">
+
 
     <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgViewGalleryUPload"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
         android:layout_weight="1"></ImageView>
-    <Button
-        android:id="@+id/buttonLoadPicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Load Picture"
-        android:layout_gravity="center"></Button>
 
-</FrameLayout>
+</LinearLayout>
