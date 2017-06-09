@@ -67,7 +67,6 @@ public class MainInviteFragment extends Fragment {
     DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
 
     private static int RESULT_LOAD_IMAGE = 1;
-    private  String picturePath;
     private OnFragmentInteractionListener mListener;
 
     public MainInviteFragment() {
@@ -208,7 +207,6 @@ public class MainInviteFragment extends Fragment {
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            picturePath = cursor.getString(columnIndex);
             cursor.close();
             //ImageView imageView = (ImageView) getView().findViewById(R.id.imgViewIn);
 

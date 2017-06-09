@@ -1,30 +1,46 @@
 package com.example.nava.a2003.My_Events;
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.UUID;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -49,7 +65,13 @@ public class FragmentUploadImage extends Fragment {
     private Button buttonBrowsePicture;
     private ImageView imgViewGalleryUPload;
     private EditText pictureName;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private Uri imgUri;
+    private static int RESULT_LOAD_IMAGE = 1;
+    private static String FB_STORAGE_PATH = "image/";
+    private static String FB_DB_PATH = "image";
+    private static int REQUEST_CODE = 1234;
+    FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
+  // FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
 
@@ -69,7 +91,6 @@ public class FragmentUploadImage extends Fragment {
                     Event event = postSnapshot.getValue(Event.class);
                     if (event != null && event.getIdEvent().equals(currentIdEvent)) {
                          currentEventRef = postSnapshot.getRef();
-                        Log.d("curennt",event.getIdEvent());
                         break;
                     }
                 }
@@ -111,15 +132,73 @@ public class FragmentUploadImage extends Fragment {
         }
     }
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_upload_images, container, false);
         buttonBrowsePicture = (Button) v.findViewById(R.id.buttonBrowsePicture);
         buttonLoadPicture = (Button) v.findViewById(R.id.buttonLoadPicture);
-        //todo - when the buttons are preesded - by viedo
-        //
+        pictureName = (EditText)v.findViewById(R.id.pictureName);
+        pictureName.setVisibility(View.GONE);
+        imgViewGalleryUPload = (ImageView)  v.findViewById(R.id.imgViewGalleryUPload);
+        buttonLoadPicture.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View arg0){
+                if(imgUri!= null){
+                    final ProgressDialog dialog = new ProgressDialog(getContext());
+                    dialog.setTitle("Uploading image");
+                    dialog.show();
 
+                    String path =  FB_DB_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri);
+                    StorageReference ref = storage.getReference(path);
+                   // UploadTask uploadTask = ref.putFile(imgUri);
+
+                    ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            dialog.dismiss();
+                            Toast.makeText(getContext(),"IMAGE UPLOAD",Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                       // double progress =
+                                    }
+                                });
+
+                }
+            }
+
+        });
+
+        buttonBrowsePicture.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick (View arg0){
+                //// TODO: 08/06/2017 change like in video
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(i.createChooser(i,"Select image"), REQUEST_CODE);
+            }
+        });
+
+/*
         String path = "fire/" + UUID.randomUUID() +".png";
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
         StorageReference ref = storage.getReference(path);
@@ -128,7 +207,7 @@ public class FragmentUploadImage extends Fragment {
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
+        myRef.setValue("Hello, World!");*/
 
         // Inflate the layout for this fragment
         return v;
@@ -140,6 +219,36 @@ public class FragmentUploadImage extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && null != data && data.getData()!= null ) {
+            imgUri= data.getData();
+            try{
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imgUri);
+                imgViewGalleryUPload.setImageBitmap(bm);
+            }
+           catch (FileNotFoundException e)
+           {
+               e.printStackTrace();
+           }
+           catch (IOException e)
+           {
+               e.printStackTrace();
+           }
+
+        }}
+
+
+    public String getImageExt( Uri uri)
+    {
+        ContentResolver contentResolver = getContext().getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
     }
 
     @Override
