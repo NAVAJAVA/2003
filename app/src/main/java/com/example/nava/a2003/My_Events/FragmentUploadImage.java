@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Image;
 import com.example.nava.a2003.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,12 +34,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -68,10 +67,8 @@ public class FragmentUploadImage extends Fragment {
     private Uri imgUri;
     private static int RESULT_LOAD_IMAGE = 1;
     private static String FB_STORAGE_PATH = "image/";
-    private static String FB_DB_PATH = "image";
     private static int REQUEST_CODE = 1234;
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
-  // FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
 
@@ -146,23 +143,27 @@ public class FragmentUploadImage extends Fragment {
         imgViewGalleryUPload = (ImageView)  v.findViewById(R.id.imgViewGalleryUPload);
         buttonLoadPicture.setOnClickListener( new View.OnClickListener()
         {
+
             @Override
             public void onClick (View arg0){
                 if(imgUri!= null){
                     final ProgressDialog dialog = new ProgressDialog(getContext());
                     dialog.setTitle("Uploading image");
                     dialog.show();
-
-                    String path =  FB_DB_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri);
+                    //add to storage
+                    String path =  FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri);
                     StorageReference ref = storage.getReference(path);
-                   // UploadTask uploadTask = ref.putFile(imgUri);
 
                     ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             dialog.dismiss();
                             Toast.makeText(getContext(),"IMAGE UPLOAD",Toast.LENGTH_SHORT).show();
+                            //save the image info db
+                            @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
+                            Image currentImg = new Image(pictureName.getText().toString(),downloadUrl.toString());
+                            currentEventRef.child("Images").push().setValue(currentImg);
                         }
                     })
                             .addOnFailureListener(new OnFailureListener() {
@@ -176,8 +177,12 @@ public class FragmentUploadImage extends Fragment {
                                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                       // double progress =
+
+                                        @SuppressWarnings("VisibleForTests") double progress = (100*taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        dialog.setMessage("Uploaded");
                                     }
+
+
                                 });
 
                 }
@@ -195,6 +200,8 @@ public class FragmentUploadImage extends Fragment {
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(i.createChooser(i,"Select image"), REQUEST_CODE);
+                pictureName.setVisibility(View.VISIBLE);
+
             }
         });
 
