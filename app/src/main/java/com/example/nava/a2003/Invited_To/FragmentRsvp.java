@@ -100,7 +100,6 @@ public class FragmentRsvp extends Fragment {
                             Guest guest = currentGuest.getValue(Guest.class);
                             if (null != guest && guest.getEmail().trim().compareTo(CurentEmailID) == 0) {
                                 //check which button is pressed and set guest in db.
-                                Log.d("btnno", "pressed");
                                 currentGuestRef = currentGuest.getRef();
                                 break;
                             }

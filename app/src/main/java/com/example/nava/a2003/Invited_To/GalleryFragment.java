@@ -1,19 +1,28 @@
 package com.example.nava.a2003.Invited_To;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.nava.a2003.Adapters.ImageAdapter;
+import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Guest;
+import com.example.nava.a2003.General.Image;
 import com.example.nava.a2003.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +42,14 @@ public class GalleryFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ListView listViewImage;
+    ListView lv;
     //a list to store all the images from firebase database
-    List<String> imageList;
+    List<Image> imgList;
+    private String currentIdEvent= "";
     //our database reference object
-    DatabaseReference databaseEvents;
+    DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
+    DatabaseReference currentRef = FirebaseDatabase.getInstance().getReference("Events");    private ImageAdapter adapter;
+    private ProgressDialog progressDialog;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -73,48 +85,85 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getting the current event which has been pressed
+        Intent i = getActivity().getIntent();
+        currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-/*
-        buttonLoadImage = (Button) buttonLoadImage.findViewById(R.id.buttonLoadPicture);
-        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //go over all events, find eventKey and CurentEmailID. set seat.
+        EventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)) {
+                        currentRef = postSnapshot.child("Images").getRef();
+                        Log.d("rrrrrrrrr", postSnapshot.getRef().toString());
+                        break;
+                    }
+                }
+            }
 
             @Override
-            public void onClick(View arg0) {
-
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            public void onCancelled(DatabaseError databaseError) {
             }
-        });*/
-    }
+        });
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.activity_show_events, container, false);
-        databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
         //getting views
-        listViewImage = (ListView) rootView.findViewById(R.id.listView);
+        lv = (ListView) rootView.findViewById(R.id.listView);
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton);
-
+        fab.hide();
         //list to store images
-        imageList = new ArrayList<>();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imgList = new ArrayList<>();
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Please wait loading list images");
+        progressDialog.show();
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+        currentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                imgList.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)) {
+                        currentRef = postSnapshot.child("Images").getRef();
+                        //go over all the images
+                        for (DataSnapshot snapshot : postSnapshot.child("Images").getChildren())
+                        {
+                            Image image = snapshot.getValue(Image.class);
+                            imgList.add(image);
+                        }
+                        break;
+                    }
+                }
+
+                adapter = new ImageAdapter(getActivity(),imgList);
+                lv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+
+
         return rootView;
     }
 

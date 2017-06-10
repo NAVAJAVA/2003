@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,7 +64,6 @@ public class FragmentUploadImage extends Fragment {
     private ImageView imgViewGalleryUPload;
     private EditText pictureName;
     private Uri imgUri;
-    private static int RESULT_LOAD_IMAGE = 1;
     private static String FB_STORAGE_PATH = "image/";
     private static int REQUEST_CODE = 1234;
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
@@ -128,8 +126,6 @@ public class FragmentUploadImage extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
-
 
 
     @Override
@@ -195,7 +191,6 @@ public class FragmentUploadImage extends Fragment {
         {
             @Override
             public void onClick (View arg0){
-                //// TODO: 08/06/2017 change like in video
                 Intent i = new Intent();
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
@@ -205,18 +200,6 @@ public class FragmentUploadImage extends Fragment {
             }
         });
 
-/*
-        String path = "fire/" + UUID.randomUUID() +".png";
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
-        StorageReference ref = storage.getReference(path);
-        //StorageMetadata metadata = new StorageMetadata.Builder()
-        UploadTask uploadTask = ref.putFile(Uri.EMPTY);
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");*/
-
-        // Inflate the layout for this fragment
         return v;
 
     }
@@ -240,10 +223,12 @@ public class FragmentUploadImage extends Fragment {
             }
            catch (FileNotFoundException e)
            {
+               Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                e.printStackTrace();
            }
            catch (IOException e)
            {
+               Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                e.printStackTrace();
            }
 
