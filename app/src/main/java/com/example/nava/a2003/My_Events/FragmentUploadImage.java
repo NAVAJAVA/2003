@@ -157,7 +157,6 @@ public class FragmentUploadImage extends Fragment {
                             Toast.makeText(getContext(),"IMAGE UPLOAD",Toast.LENGTH_SHORT).show();
                             //save the image info db
                             @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
                             Image currentImg = new Image(pictureName.getText().toString(),downloadUrl.toString());
                             currentEventRef.child("Images").push().setValue(currentImg);
                         }

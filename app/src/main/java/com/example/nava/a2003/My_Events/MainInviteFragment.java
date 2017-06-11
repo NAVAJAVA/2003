@@ -1,6 +1,8 @@
 package com.example.nava.a2003.My_Events;
 
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
@@ -12,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -19,21 +22,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Guest;
+import com.example.nava.a2003.General.Image;
 import com.example.nava.a2003.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -51,11 +68,15 @@ public class MainInviteFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static int REQUEST_CODE = 1234;
+    FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ImageView imgageView;
+    private Uri imgUri;
+    private ImageView imageView;
     private EditText txtEventName;
     private EditText txtTime;
     private EditText txtDate;
@@ -63,6 +84,8 @@ public class MainInviteFragment extends Fragment {
     private Button btnCreate;
     private String currentIdEvent="";
     private Button btnInvitation;
+    private static String FB_STORAGE_PATH = "Invitaions/";
+
     DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
 
@@ -95,7 +118,6 @@ public class MainInviteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Intent i = getActivity().getIntent();
         currentIdEvent = (String) i.getSerializableExtra("CurrentIdEvnet");
-        Log.d("curre", currentIdEvent);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -121,14 +143,10 @@ public class MainInviteFragment extends Fragment {
                             txtBankDetails.setText(event.getBankAccountDetails().toString().trim());
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
-                            if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
-                                Picasso.with(getContext()).load(event.geturlInvitaion().trim()).noPlaceholder().centerCrop().fit()
-                                    .networkPolicy(NetworkPolicy.OFFLINE)
-                                    .into(imgageView);
+                            Image image = postSnapshot.child("invitaion").getValue(Image.class);
 
-                              //  Picasso.with(getContext()).load(Uri.parse(event.geturlInvitaion())).noPlaceholder().centerCrop().fit()
-                                //        .networkPolicy(NetworkPolicy.OFFLINE)
-                                  //      .into(imgageView);
+                            if(image!= null && 0!= image.getUrl().compareTo("")) {
+                                Glide.with(getContext()).load(image.getUrl()).into(imageView);
                             }
                             refToEvent = postSnapshot.getRef();
                         }
@@ -153,7 +171,7 @@ public class MainInviteFragment extends Fragment {
         txtTime = (EditText) view.findViewById(R.id.txtTime);
         txtDate = (EditText) view.findViewById(R.id.txtDate);
         btnCreate = (Button) view.findViewById(R.id.btnCreate);
-        imgageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
+        imageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,36 +182,79 @@ public class MainInviteFragment extends Fragment {
                 String bank = txtBankDetails.getText().toString().trim();
                 //checking if the value is provided
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(time)
-                        && !TextUtils.isEmpty(date)&& !TextUtils.isEmpty(bank) ) {
-                refToEvent.child("name").setValue(name);
-                refToEvent.child("time").setValue(time);
-                refToEvent.child("bankAccountDetails").setValue(bank);
-                refToEvent.child("date").setValue(date);
-                //go over guests which Rsvp and set counter and set conuter?
-                // refToEvent.child("counterGuests").setValue(4);
-            }}
-        });
+                        && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(bank)) {
+                    refToEvent.child("name").setValue(name);
+                    refToEvent.child("time").setValue(time);
+                    refToEvent.child("bankAccountDetails").setValue(bank);
+                    refToEvent.child("date").setValue(date);
+                    //go over guests which Rsvp and set counter and set conuter?
+                    // refToEvent.child("counterGuests").setValue(4);
+                    //save the image info db
+                    if (imgUri != null) {
+                        final ProgressDialog dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Uploading image");
+                        dialog.show();
+                        //add to storage
+                        String path = FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri);
+                        StorageReference ref = storage.getReference(path);
 
-            btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
+                        ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "IMAGE UPLOAD", Toast.LENGTH_SHORT).show();
+                                //save the image info db
+                                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Image currentImg = new Image("", downloadUrl.toString());
+                                refToEvent.child("invitaion").setValue(currentImg);
+
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        dialog.dismiss();
+                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                        @SuppressWarnings("VisibleForTests") double progress = (100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        dialog.setMessage("Uploaded");
+                                    }
+
+
+                                });
+
+                    }
+                }
+            }
+
+
+        });
+        btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
         btnInvitation.setOnClickListener(new View.OnClickListener()
 
-            {
-                @Override
-                public void onClick (View arg0){
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+        {
+            @Override
+            public void onClick (View arg0){
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(i.createChooser(i,"Select image"), REQUEST_CODE);
             }
-            });
+        });
+
+
         return view;
-
-
 
     }
 
 
-
+    /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -215,8 +276,42 @@ public class MainInviteFragment extends Fragment {
 
             Picasso.with(getContext()).load(selectedImage).noPlaceholder().centerCrop().fit()
                     .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(imgageView);
+                    .into(imageView);
     }}
+
+*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && null != data && data.getData()!= null ) {
+              imgUri= data.getData();
+
+            try{
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imgUri);
+                imageView.setImageBitmap(bm);
+            }
+            catch (FileNotFoundException e)
+            {
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }}
+
+
+    public String getImageExt( Uri uri)
+    {
+        ContentResolver contentResolver = getContext().getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

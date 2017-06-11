@@ -51,8 +51,6 @@ public class GalleryFragment extends Fragment {
     DatabaseReference currentRef = FirebaseDatabase.getInstance().getReference("Events");    private ImageAdapter adapter;
     private ProgressDialog progressDialog;
 
-    private static int RESULT_LOAD_IMAGE = 1;
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -105,7 +103,6 @@ public class GalleryFragment extends Fragment {
                     Event event = postSnapshot.getValue(Event.class);
                     if (event != null && event.getIdEvent().equals(currentIdEvent)) {
                         currentRef = postSnapshot.child("Images").getRef();
-                        Log.d("rrrrrrrrr", postSnapshot.getRef().toString());
                         break;
                     }
                 }
@@ -137,7 +134,6 @@ public class GalleryFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 progressDialog.dismiss();
                 imgList.clear();
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Event event = postSnapshot.getValue(Event.class);
                     if (event != null && event.getIdEvent().equals(currentIdEvent)) {

@@ -21,20 +21,20 @@ public class Event implements Serializable {
      List<Guest> guestList;
      ArrayList<String> ownersKeys;
      int counterGuests;
-     String urlInvitaion;
+     Image invitaion;
      String idEvent;
 
     public Event()
     {
 
     }
-    public Event(String name, String date, String time,String desc,String bankAccountDetails, String urlInvitaion, List<Guest> guestList) {
+    public Event(String name, String date, String time,String desc,String bankAccountDetails,   Image invitaion, List<Guest> guestList) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.guestList = null;
         this.bankAccountDetails = bankAccountDetails;
-        this.urlInvitaion = urlInvitaion;
+        this.invitaion = invitaion;
         this.description = desc;
         this.counterGuests = 0;
     }
@@ -47,10 +47,6 @@ public class Event implements Serializable {
     public int getCounterGuests() {
         return counterGuests;
     }
-
-
-
-
 
     @Override public String toString() {
         return "Event{" +
@@ -101,10 +97,9 @@ public class Event implements Serializable {
         this.counterGuests = counterGuests;
     }
 
-    public String geturlInvitaion() {
-        return urlInvitaion;
+    public Image getInvitaion() {
+        return invitaion;
     }
-
 
     public String getDescription() {
         return description;
@@ -114,8 +109,8 @@ public class Event implements Serializable {
         this.description = description;
     }
 
-    public void seturlInvitaion(String urlInvitaion) {
-        this.urlInvitaion = urlInvitaion;
+    public void setInvitaion(Image Invitaion) {
+        this.invitaion = Invitaion;
     }
 
     public ArrayList<String> getOwnersKeys() {

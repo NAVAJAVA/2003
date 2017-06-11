@@ -41,7 +41,6 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             convertView = LayoutInflater.from(c).inflate(R.layout.fragment_gallery, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.ImageName);
             ImageView img = (ImageView) convertView.findViewById(R.id.imgViewGalleryUPload);
-
             textView.setText(ImageList.get(position).getName());
             Glide.with(c).load(ImageList.get(position).getUrl()).into(img);
 

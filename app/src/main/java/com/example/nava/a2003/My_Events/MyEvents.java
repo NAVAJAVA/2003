@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.nava.a2003.Adapters.CustomAdapter;
 import com.example.nava.a2003.General.Event;
+import com.example.nava.a2003.General.Image;
 import com.example.nava.a2003.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -129,7 +130,7 @@ public class MyEvents extends Fragment {
             String id = databaseEvents.push().getKey();
             //creating an Event Object
             Event event = new Event();
-            event.seturlInvitaion("");
+            event.setInvitaion(new Image("",""));
             event.setName(name);
             event.setDate(date);
             event.setTime(time);

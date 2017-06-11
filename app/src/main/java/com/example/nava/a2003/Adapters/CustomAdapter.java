@@ -10,7 +10,10 @@ package com.example.nava.a2003.Adapters;
         import android.widget.BaseAdapter;
         import android.widget.ImageView;
         import android.widget.TextView;
+
+        import com.bumptech.glide.Glide;
         import com.example.nava.a2003.General.Event;
+        import com.example.nava.a2003.General.Image;
         import com.example.nava.a2003.My_Events.InviteActivity;
         import com.example.nava.a2003.Invited_To.OperationActivity;
         import com.example.nava.a2003.R;
@@ -65,13 +68,23 @@ public class CustomAdapter extends BaseAdapter{
         dateTxt.setText(event.getDate());
         timeTxt.setText(event.getTime());
         //Picasso.with(c).load("http://www.grafix.co.il/wp-content/media/2016/09/weddinginvitationsgrafix1.jpg").into(img);
+        Image image = event.getInvitaion();
 
-        if(event.geturlInvitaion()!= null && 0!=event.geturlInvitaion().compareTo("")) {
-            Picasso.with(c).load(event.geturlInvitaion()).noPlaceholder().centerCrop().fit()
+        if(image!= null && 0!= image.getUrl().compareTo("")) {
+            //Glide.with(c).load(image.getUrl()).into(img);
+
+            Picasso.with(c).load(image.getUrl()).noPlaceholder().centerCrop().fit()
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(img);
-
         }
+        /*
+        if(event.getInvitaion()!= null && 0!=event.getInvitaion().getUrl().compareTo("")) {
+            Picasso.with(c).load(event.getInvitaion().getUrl()).noPlaceholder().centerCrop().fit()
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(img);
+            Glide.with(c).load(eventsList.get(position).getInvitaion().getUrl()).into(img);
+
+        }*/
 
         //OnEventClick
         convertView.setOnClickListener(new View.OnClickListener() {
