@@ -30,6 +30,12 @@
                 android:layout_weight="0.94"
                 ></ImageView>
 
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/wize" />
+
 
         </LinearLayout>
     </FrameLayout>

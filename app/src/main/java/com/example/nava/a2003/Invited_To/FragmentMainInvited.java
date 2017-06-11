@@ -1,5 +1,6 @@
 package com.example.nava.a2003.Invited_To;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.nava.a2003.General.Event;
@@ -44,7 +46,7 @@ public class FragmentMainInvited extends Fragment {
     String CurentEmailID = auth.getCurrentUser().getEmail().trim();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference  currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
-
+    private Button btn;
 
 
 
@@ -96,6 +98,23 @@ public class FragmentMainInvited extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_main_invite, container, false);
         imageViewInvitedTO = (ImageView) v.findViewById(R.id.imgViewInvitedTo);
+        btn = (Button) v.findViewById(R.id.button2);
+        btn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                try
+                {
+                    String url = "waze://?q=Hawaii";
+                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+                    startActivity( intent );
+                }
+                catch ( ActivityNotFoundException ex  )
+                {
+                    Intent intent =
+                            new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                    startActivity(intent);
+                }
+            }
+        });
         EventsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
