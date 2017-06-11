@@ -1,6 +1,7 @@
 package com.example.nava.a2003.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +49,11 @@ public class GuestAdapter extends BaseAdapter {
             convertView= LayoutInflater.from(c).inflate(R.layout.layout_guests_list,parent,false);
         }
 
-        TextView nameTxt= (TextView) convertView.findViewById(R.id.textViewName);
-        TextView emailTxt= (TextView) convertView.findViewById(R.id.textViewEmail);
-        TextView seatTxt= (TextView) convertView.findViewById(R.id.textViewSeat);
+        TextView nameTxt = (TextView) convertView.findViewById(R.id.textViewName);
+        TextView emailTxt = (TextView) convertView.findViewById(R.id.textViewEmail);
+        TextView seatTxt = (TextView) convertView.findViewById(R.id.textViewSeat);
+        TextView rsvpTxt = (TextView) convertView.findViewById(R.id.textViewRsvp);
+
 
 
         final Guest guest = (Guest) this.getItem(position);
@@ -58,6 +61,22 @@ public class GuestAdapter extends BaseAdapter {
         nameTxt.setText(guest.getName());
         emailTxt.setText(guest.getEmail());
         seatTxt.setText(guest.getSeat());
+        if(guest.getRsvp().compareTo("yes") == 0)
+        {
+            rsvpTxt.setTextColor(Color.BLUE);
+
+        }
+        if(guest.getRsvp().compareTo("no") == 0)
+        {
+            rsvpTxt.setTextColor(Color.RED);
+
+        }
+        if(guest.getRsvp().compareTo("didnt rsvp yet") == 0)
+        {
+            rsvpTxt.setTextColor(Color.parseColor("#FFFFFF"));
+
+        }
+        rsvpTxt.setText(guest.getRsvp());
 
 
         //ONITECLICK

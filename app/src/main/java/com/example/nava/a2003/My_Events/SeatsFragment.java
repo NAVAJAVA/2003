@@ -52,6 +52,7 @@ public class SeatsFragment extends Fragment  {
     private EditText guestName;
     private EditText guestEmail;
     private EditText guestTableNumber;
+    private  int counterGuests;
     private Button addButtonGuests;
     ListView listViewGuests;
     //a list to store all the guests from firebase database
@@ -101,9 +102,19 @@ public class SeatsFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        counterGuests = 0;
         View rootView = inflater.inflate(R.layout.fragment_guests, container, false);
         addButtonGuests = (Button) rootView.findViewById(R.id.addButtonGuests);
-        addButtonGuests.setVisibility(View.GONE);
+        addButtonGuests.setText("how many Rsvp?");
+        addButtonGuests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addButtonGuests.setText(String.valueOf(counterGuests));
+
+            }
+        });
+
+
         //getting the reference of guests node
         databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
         //find the ref to the current event (in order to add guests list in proper place)
@@ -183,6 +194,9 @@ public class SeatsFragment extends Fragment  {
                         {
                             Guest guest = currentGuest.getValue(Guest.class);
                             if(null!= guest) {
+                                if(guest.getRsvp().compareTo("yes") == 0){
+                                    counterGuests++;
+                                }
                                 guests.add(guest);
                             }
                         }
