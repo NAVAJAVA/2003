@@ -41,12 +41,8 @@ public class FragmentMainInvited extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String currentIdEvent="";
     private ImageView imageViewInvitedTO;
-    private boolean flag = false;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    String CurentEmailID = auth.getCurrentUser().getEmail().trim();
     DatabaseReference EventsRef = FirebaseDatabase.getInstance().getReference("Events");
-    DatabaseReference  currentEventRef = FirebaseDatabase.getInstance().getReference("Events");
-    private Button btn;
+    private Button btnWaze;
 
 
 
@@ -98,8 +94,8 @@ public class FragmentMainInvited extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_main_invite, container, false);
         imageViewInvitedTO = (ImageView) v.findViewById(R.id.imgViewInvitedTo);
-        btn = (Button) v.findViewById(R.id.button2);
-        btn.setOnClickListener(new View.OnClickListener(){
+        btnWaze = (Button) v.findViewById(R.id.btnWaze);
+        btnWaze.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 try
                 {

@@ -5,20 +5,13 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +23,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nava.a2003.General.Event;
-import com.example.nava.a2003.General.Guest;
 import com.example.nava.a2003.General.Image;
 import com.example.nava.a2003.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,9 +36,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,12 +46,12 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MainInviteFragment.OnFragmentInteractionListener} interface
+ * {@link EditFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MainInviteFragment#newInstance} factory method to
+ * Use the {@link EditFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainInviteFragment extends Fragment {
+public class EditFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -92,7 +80,7 @@ public class MainInviteFragment extends Fragment {
     private static int RESULT_LOAD_IMAGE = 1;
     private OnFragmentInteractionListener mListener;
 
-    public MainInviteFragment() {
+    public EditFragment() {
         // Required empty public constructor
     }
 
@@ -105,8 +93,8 @@ public class MainInviteFragment extends Fragment {
      * @return A new instance of fragment MainInviteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainInviteFragment newInstance(String param1, String param2) {
-        MainInviteFragment fragment = new MainInviteFragment();
+    public static EditFragment newInstance(String param1, String param2) {
+        EditFragment fragment = new EditFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -144,11 +132,9 @@ public class MainInviteFragment extends Fragment {
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
                             Image image = postSnapshot.child("invitaion").getValue(Image.class);
+
                             if(image!= null && 0!= image.getUrl().compareTo("")) {
-                              //  Glide.with(getContext()).load(image.getUrl()).into(imageView);
-                                Picasso.with(getContext()).load(image.getUrl()).noPlaceholder().centerCrop().fit()
-                                        .networkPolicy(NetworkPolicy.OFFLINE)
-                                        .into(imageView);
+                                Glide.with(getContext()).load(image.getUrl()).into(imageView);
                             }
                             refToEvent = postSnapshot.getRef();
                         }
@@ -172,19 +158,83 @@ public class MainInviteFragment extends Fragment {
         txtBankDetails = (EditText) view.findViewById(R.id.txtBankDetails);
         txtTime = (EditText) view.findViewById(R.id.txtTime);
         txtDate = (EditText) view.findViewById(R.id.txtDate);
-        imageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
         btnCreate = (Button) view.findViewById(R.id.btnCreate);
+        imageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                String name = txtEventName.getText().toString().trim();
+                String time = txtTime.getText().toString().trim();
+                String date = txtDate.getText().toString().trim();
+                String bank = txtBankDetails.getText().toString().trim();
+                //checking if the value is provided
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(time)
+                        && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(bank)) {
+                    refToEvent.child("name").setValue(name);
+                    refToEvent.child("time").setValue(time);
+                    refToEvent.child("bankAccountDetails").setValue(bank);
+                    refToEvent.child("date").setValue(date);
+                    //go over guests which Rsvp and set counter and set conuter?
+                    // refToEvent.child("counterGuests").setValue(4);
+                    //save the image info db
+                    if (imgUri != null) {
+                        final ProgressDialog dialog = new ProgressDialog(getContext());
+                        dialog.setTitle("Uploading image");
+                        dialog.show();
+                        //add to storage
+                        String path = FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri);
+                        StorageReference ref = storage.getReference(path);
+
+                        ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "IMAGE UPLOAD", Toast.LENGTH_SHORT).show();
+                                //save the image info db
+                                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Image currentImg = new Image("", downloadUrl.toString());
+                                refToEvent.child("invitaion").setValue(currentImg);
+
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        dialog.dismiss();
+                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                        @SuppressWarnings("VisibleForTests") double progress = (100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        dialog.setMessage("Uploaded");
+                                    }
+
+
+                                });
+
+                    }
+                }
+            }
+
+
+        });
         btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
-        txtTime.setFocusable(false);
-        txtDate.setFocusable(false);
-        txtBankDetails.setFocusable(false);
-        txtEventName.setFocusable(false);
+        btnInvitation.setOnClickListener(new View.OnClickListener()
 
-
-
-        btnCreate.setVisibility(View.INVISIBLE);
-        btnInvitation.setVisibility(View.GONE);
-
+        {
+            @Override
+            public void onClick (View arg0){
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(i.createChooser(i,"Select image"), REQUEST_CODE);
+            }
+        });
 
 
         return view;

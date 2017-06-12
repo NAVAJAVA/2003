@@ -31,10 +31,10 @@
                 ></ImageView>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnWaze"
                 android:layout_width="62dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/wize" />
+                android:background="@drawable/waze" />
 
 
         </LinearLayout>
