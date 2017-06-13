@@ -1,4 +1,5 @@
 package com.example.nava.a2003.Invited_To;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import com.example.nava.a2003.Adapters.CustomAdapter;
 import com.example.nava.a2003.General.Event;
 import com.example.nava.a2003.General.FirebaseManager;
 import com.example.nava.a2003.General.Guest;
+import com.example.nava.a2003.General.LoginActivity;
 import com.example.nava.a2003.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -55,6 +57,7 @@ public class InvitedTo extends Fragment {
     }
 
     public void IsGuestInvited(){
+        if(auth != null){
         final String CurentEmailID = auth.getCurrentUser().getEmail().trim();
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,6 +85,12 @@ public class InvitedTo extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+    }
+    //go to login
+    else{
+           // startActivity(new Intent(getActivity(), LoginActivity.class));
+            //getActivity().finish();
+        }
     }
 
     @Override

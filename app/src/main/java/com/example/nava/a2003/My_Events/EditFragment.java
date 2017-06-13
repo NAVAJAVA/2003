@@ -57,6 +57,7 @@ public class EditFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static int REQUEST_CODE = 1234;
+    private boolean isAttached;
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
 
 
@@ -76,8 +77,6 @@ public class EditFragment extends Fragment {
 
     DatabaseReference database = FirebaseDatabase.getInstance().getReference("Events");
     DatabaseReference refToEvent = FirebaseDatabase.getInstance().getReference("Events");
-
-    private static int RESULT_LOAD_IMAGE = 1;
     private OnFragmentInteractionListener mListener;
 
     public EditFragment() {
@@ -115,9 +114,6 @@ public class EditFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //first time the screen is shown pull data from db and show it on screen
-        //if(first) {
-          //  first=false;
             //showing the details of the event that was pressed
             database.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -133,8 +129,8 @@ public class EditFragment extends Fragment {
                             txtDate.setText(event.getDate().toString().trim());
                             Image image = postSnapshot.child("invitaion").getValue(Image.class);
 
-                            if(image!= null && 0!= image.getUrl().compareTo("")) {
-                                Glide.with(getContext()).load(image.getUrl()).into(imageView);
+                            if(isAttached &&image!= null && 0!= image.getUrl().compareTo("")) {
+                                Glide.with(getContext().getApplicationContext()).load(image.getUrl()).into(imageView);
                             }
                             refToEvent = postSnapshot.getRef();
                         }
@@ -146,7 +142,6 @@ public class EditFragment extends Fragment {
 
                 }
             });
-        //}
     }
 
     @Override
@@ -175,8 +170,6 @@ public class EditFragment extends Fragment {
                     refToEvent.child("time").setValue(time);
                     refToEvent.child("bankAccountDetails").setValue(bank);
                     refToEvent.child("date").setValue(date);
-                    //go over guests which Rsvp and set counter and set conuter?
-                    // refToEvent.child("counterGuests").setValue(4);
                     //save the image info db
                     if (imgUri != null) {
                         final ProgressDialog dialog = new ProgressDialog(getContext());
@@ -310,6 +303,7 @@ public class EditFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        isAttached = true;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -321,6 +315,7 @@ public class EditFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        isAttached = false;
         mListener = null;
     }
 

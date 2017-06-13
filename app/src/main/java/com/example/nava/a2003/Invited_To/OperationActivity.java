@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -12,12 +13,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.nava.a2003.General.LoginActivity;
 import com.example.nava.a2003.My_Events.CalendarFragment;
 import com.example.nava.a2003.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class OperationActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentMainInvited.OnFragmentInteractionListener,
@@ -91,24 +95,6 @@ public class OperationActivity extends  AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_Calendar) {
-            /*
-        }
-            auth.signOut();
-// this listener will be called when there is change in firebase user session
-            FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user == null) {
-                        // user auth state is changed - user is null
-                        // launch login activity
-                        Log.d("fini","fin");
-                        startActivity(new Intent(OperationActivity.this, LoginActivity.class));
-                        finish();
-                    }
-                }
-                };
-*/
             fragmentClass = CalendarFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -117,7 +103,13 @@ public class OperationActivity extends  AppCompatActivity
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
+            return true;
+        }
+        if( id == R.id.action_sign_out)
+        {
+            auth.signOut();
+            startActivity(new Intent(OperationActivity.this, LoginActivity.class));
+            finish();
             return true;
         }
 
@@ -142,9 +134,7 @@ public class OperationActivity extends  AppCompatActivity
         } else if (id == R.id.nav_payment) {
             fragmentClass = FragmentPayment.class;
         }
-        /* if (id == R.id.nav_calendar) {
-            fragmentClass = FragmentTwo.class;
-        }
+        /*
          tools - the user can control notifications before events etc..
         else if (id == R.id.nav_manage) {
 

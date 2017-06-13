@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="Calendar"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sign_out"
+        android:orderInCategory="100"
+        android:title="Sign out"
+        app:showAsAction="never" />
 </menu>

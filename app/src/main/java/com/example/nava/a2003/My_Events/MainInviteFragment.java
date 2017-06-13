@@ -69,6 +69,7 @@ public class MainInviteFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static int REQUEST_CODE = 1234;
+    private boolean isAttached;
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://project-7aca3.appspot.com");
 
 
@@ -144,11 +145,11 @@ public class MainInviteFragment extends Fragment {
                             txtTime.setText(event.getTime().toString().trim());
                             txtDate.setText(event.getDate().toString().trim());
                             Image image = postSnapshot.child("invitaion").getValue(Image.class);
-                            if(image!= null && 0!= image.getUrl().compareTo("")) {
-                              //  Glide.with(getContext()).load(image.getUrl()).into(imageView);
-                                Picasso.with(getContext()).load(image.getUrl()).noPlaceholder().centerCrop().fit()
-                                        .networkPolicy(NetworkPolicy.OFFLINE)
-                                        .into(imageView);
+                            if( isAttached && image!= null && 0!= image.getUrl().compareTo("")) {
+                                Glide.with(getContext()).load(image.getUrl()).into(imageView);
+                               // Picasso.with(getContext()).load(image.getUrl()).noPlaceholder().centerCrop().fit()
+                                 //       .networkPolicy(NetworkPolicy.OFFLINE)
+                                   //     .into(imageView);
                             }
                             refToEvent = postSnapshot.getRef();
                         }
@@ -259,6 +260,7 @@ public class MainInviteFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        isAttached = true;
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -270,6 +272,7 @@ public class MainInviteFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        isAttached = false;
         super.onDetach();
         mListener = null;
     }

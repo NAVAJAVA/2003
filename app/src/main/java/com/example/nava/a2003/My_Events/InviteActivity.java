@@ -16,8 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.nava.a2003.General.LoginActivity;
 import com.example.nava.a2003.Invited_To.GalleryFragment;
+import com.example.nava.a2003.Invited_To.OperationActivity;
 import com.example.nava.a2003.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,6 +31,7 @@ public class InviteActivity extends  AppCompatActivity
         SeatsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
+    private FirebaseAuth auth;
     DatabaseReference databaseEvents;
 
 
@@ -35,6 +39,7 @@ public class InviteActivity extends  AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+        auth = FirebaseAuth.getInstance();
         databaseEvents = FirebaseDatabase.getInstance().getReference("Events");
         //gets the currentIdEvent from customAdapter
         Intent intent = getIntent();
@@ -99,8 +104,6 @@ public class InviteActivity extends  AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_Calendar) {
-           // FirebaseAuth.getInstance().signOut();
-
             fragmentClass = CalendarFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
@@ -109,9 +112,17 @@ public class InviteActivity extends  AppCompatActivity
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContentInvite, fragment).commit();
-
             return true;
         }
+        if( id == R.id.action_sign_out)
+        {
+            auth.signOut();
+            startActivity(new Intent(InviteActivity.this, LoginActivity.class));
+            finish();
+            return true;
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }
