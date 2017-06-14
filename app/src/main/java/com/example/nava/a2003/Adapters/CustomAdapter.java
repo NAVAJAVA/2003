@@ -71,11 +71,14 @@ public class CustomAdapter extends BaseAdapter{
         Image image = event.getInvitaion();
 
         if(image!= null && 0!= image.getUrl().compareTo("")) {
-            //Glide.with(c).load(image.getUrl()).into(img);
-
+            Glide.with(c).load(image.getUrl()).into(img);
             Picasso.with(c).load(image.getUrl()).noPlaceholder().centerCrop().fit()
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(img);
+/*
+            Picasso.with(c).load(image.getUrl()).noPlaceholder().centerCrop().fit()
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(img);*/
         }
         /*
         if(event.getInvitaion()!= null && 0!=event.getInvitaion().getUrl().compareTo("")) {
@@ -102,6 +105,19 @@ public class CustomAdapter extends BaseAdapter{
 
             }
         });
+
+
+      //  convertView.setLongClickable(true);
+/*
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                                               @Override
+                                               public boolean onLongClick(View v) {
+                                                   Log.v("long clicked","pos: " + getCount());
+
+                                                   return false;
+                                               }
+                                           }
+        );*/
 
         return convertView;
     }

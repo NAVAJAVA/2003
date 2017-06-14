@@ -176,6 +176,7 @@ public class MainInviteFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.imgViewIn) ;
         btnCreate = (Button) view.findViewById(R.id.btnCreate);
         btnInvitation =(Button)view.findViewById(R.id.btnInvitation);
+        //just show that details
         txtTime.setFocusable(false);
         txtDate.setFocusable(false);
         txtBankDetails.setFocusable(false);
