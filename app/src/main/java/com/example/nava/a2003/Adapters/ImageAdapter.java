@@ -42,9 +42,8 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             TextView textView = (TextView) convertView.findViewById(R.id.ImageName);
             ImageView img = (ImageView) convertView.findViewById(R.id.imgViewGalleryUPload);
             textView.setText(ImageList.get(position).getName());
+            textView.setEnabled(false);
             Glide.with(c).load(ImageList.get(position).getUrl()).into(img);
-
-
             return convertView;
 
     }

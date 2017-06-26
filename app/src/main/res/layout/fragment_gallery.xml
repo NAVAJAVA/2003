@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Image name"
+        android:textColor="@color/colorPrimary"
         android:gravity="center"
         android:id="@+id/ImageName"/>
 

@@ -188,7 +188,7 @@ public class SeatsFragment extends Fragment  {
                     //need to go to event that is equal to current and to dispaly the list of it
                     //getting current event and add the guest to it
                     Event event = postSnapshot.getValue(Event.class);
-                    if (event != null && event.getIdEvent().equals(currentIdEvent)){
+                    if (event != null && event.getIdEvent().compareTo(currentIdEvent)==0){
                         //get all the guests
                         for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
                         {
