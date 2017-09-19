@@ -1,9 +1,11 @@
 package com.example.nava.a2003.My_Events;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -28,11 +30,12 @@ public class InviteActivity extends  AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuestsFragment.OnFragmentInteractionListener,
         FragmentUploadImage.OnFragmentInteractionListener,CalendarFragment.OnFragmentInteractionListener,
         MainInviteFragment.OnFragmentInteractionListener,EditFragment.OnFragmentInteractionListener,
-        SeatsFragment.OnFragmentInteractionListener{
+        SeatsFragment.OnFragmentInteractionListener,SmsFragment.OnFragmentInteractionListener{
    private Fragment fragment = null;
    private Class fragmentClass = null;
     private FirebaseAuth auth;
     DatabaseReference databaseEvents;
+
 
 
     @Override
@@ -140,6 +143,9 @@ public class InviteActivity extends  AppCompatActivity
             fragmentClass = SeatsFragment.class;
         } else if (id == R.id.nav_edit) {
             fragmentClass = EditFragment.class;
+        }
+        if (id == R.id.nav_sms) {
+            fragmentClass = SmsFragment.class;
         }
 
         try {

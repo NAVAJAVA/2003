@@ -1,20 +1,16 @@
 package com.example.nava.a2003.My_Events;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.nava.a2003.Adapters.GuestAdapter;
 import com.example.nava.a2003.General.Event;
@@ -96,7 +92,12 @@ public class SeatsFragment extends Fragment  {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,6 +107,8 @@ public class SeatsFragment extends Fragment  {
         View rootView = inflater.inflate(R.layout.fragment_guests, container, false);
         addButtonGuests = (Button) rootView.findViewById(R.id.addButtonGuests);
         addButtonGuests.setText("how many Rsvp?");
+
+
         addButtonGuests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,7 +191,7 @@ public class SeatsFragment extends Fragment  {
                     //need to go to event that is equal to current and to dispaly the list of it
                     //getting current event and add the guest to it
                     Event event = postSnapshot.getValue(Event.class);
-                    if (event != null && event.getIdEvent().compareTo(currentIdEvent)==0){
+                    if (event != null && event.getIdEvent().equals(currentIdEvent)){
                         //get all the guests
                         for( DataSnapshot currentGuest: postSnapshot.child("guests").getChildren())
                         {
